@@ -11,7 +11,7 @@ public interface Match {
     int getAwayScore();
     boolean isCompleted();
 
-    // Additional methods from M1 Section 5.5
+
     String getScore();
     List<MatchEvent> getMatchEvents();
     void applyTacticChange(Team team, Tactic newTactic);
