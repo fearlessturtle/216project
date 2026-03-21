@@ -11,9 +11,9 @@ public interface Match {
     int getAwayScore();
     boolean isCompleted();
 
-    //int getScore();
-    //List<MatchEvent> getMatchEvents();
-    //void applyTacticChange(Team team, Tactic newTactic);
-    //void substitutePlayer(Team team, Player playerOut, Player playerIn);
-    //void addObserver(MatchObserver observer);
+    int getScore();
+    List<MatchEvent> getMatchEvents();
+    void applyTacticChange(Team team, Tactic newTactic);
+    void substitutePlayer(Team team, Player playerOut, Player playerIn);
+    void addObserver(MatchObserver observer);
 }
