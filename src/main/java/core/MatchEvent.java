@@ -1,4 +1,4 @@
-package core;
+package com.sportsmanager.core;
 
 public class MatchEvent {
 
