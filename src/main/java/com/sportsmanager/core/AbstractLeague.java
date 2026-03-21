@@ -1,0 +1,119 @@
+package com.sportsmanager.core;
+
+import java.util.*;
+
+public abstract class AbstractLeague implements League {
+
+    protected List<Team> teams;
+    protected List<Match> fixtures;
+    protected Map<Team, TeamStanding> standings;
+    protected int currentWeek;
+
+    public AbstractLeague() {
+        this.teams = new ArrayList<>();
+        this.fixtures = new ArrayList<>();
+        this.standings = new HashMap<>();
+        this.currentWeek = 0;
+    }
+
+    @Override
+    public List<Team> getTeams() {
+        return new ArrayList<>(teams);
+    }
+
+    @Override
+    public List<Match> getFixtures() {
+        return new ArrayList<>(fixtures);
+    }
+
+    @Override
+    public List<TeamStanding> getStandings() {
+        List<TeamStanding> standingsList = new ArrayList<>(standings.values());
+        
+        standingsList.sort((s1, s2) -> {
+            int p1 = s1.getPoints(3, 1);
+            int p2 = s2.getPoints(3, 1);
+            if (p1 != p2) {
+                return Integer.compare(p2, p1);
+            }
+            if (s1.getGoalDifference() != s2.getGoalDifference()) {
+                return Integer.compare(s2.getGoalDifference(), s1.getGoalDifference());
+            }
+            return Integer.compare(s2.getGoalsFor(), s1.getGoalsFor());
+        });
+        
+        return standingsList;
+    }
+
+    @Override
+    public List<Match> getNextMatches() {
+        return new ArrayList<>(fixtures);
+    }
+
+    @Override
+    public abstract void generateFixture();
+
+    @Override
+    public void updateStandings(Match match) {
+        Team homeTeam = match.getHomeTeam();
+        Team awayTeam = match.getAwayTeam();
+
+        if (!standings.containsKey(homeTeam)) {
+            standings.put(homeTeam, new TeamStanding(homeTeam, 0, 0, 0, 0, 0));
+        }
+        if (!standings.containsKey(awayTeam)) {
+            standings.put(awayTeam, new TeamStanding(awayTeam, 0, 0, 0, 0, 0));
+        }
+
+        TeamStanding homeStanding = standings.get(homeTeam);
+        TeamStanding awayStanding = standings.get(awayTeam);
+
+        int homeScore = match.getHomeScore();
+        int awayScore = match.getAwayScore();
+
+        homeStanding.setGoalsFor(homeStanding.getGoalsFor() + homeScore);
+        homeStanding.setGoalsAgainst(homeStanding.getGoalsAgainst() + awayScore);
+
+        awayStanding.setGoalsFor(awayStanding.getGoalsFor() + awayScore);
+        awayStanding.setGoalsAgainst(awayStanding.getGoalsAgainst() + homeScore);
+
+        if (homeScore > awayScore) {
+            homeStanding.setWins(homeStanding.getWins() + 1);
+            awayStanding.setLosses(awayStanding.getLosses() + 1);
+        } else if (homeScore < awayScore) {
+            homeStanding.setLosses(homeStanding.getLosses() + 1);
+            awayStanding.setWins(awayStanding.getWins() + 1);
+        } else {
+            homeStanding.setDraws(homeStanding.getDraws() + 1);
+            awayStanding.setDraws(awayStanding.getDraws() + 1);
+        }
+    }
+
+    @Override
+    public boolean isSeasonOver() {
+        for (Match match : fixtures) {
+            if (!match.isCompleted()) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    @Override
+    public abstract List<Team> applyTiebreaker(List<Team> teams);
+
+    public void addTeam(Team team) {
+        if (!teams.contains(team)) {
+            teams.add(team);
+            standings.put(team, new TeamStanding(team, 0, 0, 0, 0, 0));
+        }
+    }
+
+    public void setCurrentWeek(int week) {
+        this.currentWeek = week;
+    }
+
+    public int getCurrentWeek() {
+        return currentWeek;
+    }
+}
