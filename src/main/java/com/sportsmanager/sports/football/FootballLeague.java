@@ -85,21 +85,21 @@ public class FootballLeague extends AbstractLeague {
 
             if (home.equals(t1) && away.equals(t2)) {
                 if (homeScore > awayScore) {
-                    t1Points += 3;
+                    t1Points += 2;
                 } else if (homeScore == awayScore) {
                     t1Points += 1;
                     t2Points += 1;
                 } else {
-                    t2Points += 3;
+                    t2Points += 2;
                 }
             } else if (home.equals(t2) && away.equals(t1)) {
                 if (homeScore > awayScore) {
-                    t2Points += 3;
+                    t2Points += 2;
                 } else if (homeScore == awayScore) {
                     t2Points += 1;
                     t1Points += 1;
                 } else {
-                    t1Points += 3;
+                    t1Points += 2;
                 }
             }
         }
