@@ -16,7 +16,6 @@ public class FootballLeague extends AbstractLeague {
         }
 
         fixtures.clear();
-        int weekCounter = 0;
 
         for (int half = 0; half < 2; half++) {
             for (int round = 0; round < NUM_TEAMS - 1; round++) {
@@ -31,7 +30,6 @@ public class FootballLeague extends AbstractLeague {
                 }
 
                 rotateTeams(teams);
-                weekCounter++;
             }
         }
     }
@@ -49,21 +47,29 @@ public class FootballLeague extends AbstractLeague {
         }
 
         List<Team> result = new ArrayList<>(tiedTeams);
+        Random random = new Random();
 
         result.sort((t1, t2) -> {
+            // 1. Points first
+            TeamStanding s1 = standings.get(t1);
+            TeamStanding s2 = standings.get(t2);
+            int p1 = s1.getPoints(3, 1);
+            int p2 = s2.getPoints(3, 1);
+            if (p1 != p2) return Integer.compare(p2, p1);
+
+            // 2. Head to head
             int h2hCompare = compareHeadToHead(t1, t2);
             if (h2hCompare != 0) {
                 return h2hCompare;
             }
 
-            TeamStanding s1 = standings.get(t1);
-            TeamStanding s2 = standings.get(t2);
-
+            // 3. Goal difference
             if (s1.getGoalDifference() != s2.getGoalDifference()) {
                 return Integer.compare(s2.getGoalDifference(), s1.getGoalDifference());
             }
 
-            return Integer.compare(s2.getGoalsFor(), s1.getGoalsFor());
+            // 4. Coin toss
+            return random.nextInt(2) == 0 ? -1 : 1;
         });
 
         return result;
