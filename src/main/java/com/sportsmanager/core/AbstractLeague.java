@@ -31,8 +31,8 @@ public abstract class AbstractLeague implements League {
         List<TeamStanding> standingsList = new ArrayList<>(standings.values());
         
         standingsList.sort((s1, s2) -> {
-            int p1 = s1.getPoints(3, 1);
-            int p2 = s2.getPoints(3, 1);
+            int p1 = s1.getPoints(2, 1);
+            int p2 = s2.getPoints(2, 1);
             if (p1 != p2) {
                 return Integer.compare(p2, p1);
             }
