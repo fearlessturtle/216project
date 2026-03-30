@@ -53,8 +53,8 @@ public class FootballLeague extends AbstractLeague {
             // 1. Points first
             TeamStanding s1 = standings.get(t1);
             TeamStanding s2 = standings.get(t2);
-            int p1 = s1.getPoints(2, 1);
-            int p2 = s2.getPoints(2, 1);
+            int p1 = s1.getPoints(3, 1);
+            int p2 = s2.getPoints(3, 1);
             if (p1 != p2) return Integer.compare(p2, p1);
 
             // 2. Head to head
