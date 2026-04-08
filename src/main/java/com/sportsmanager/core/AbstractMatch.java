@@ -25,6 +25,7 @@ public abstract class AbstractMatch implements Match {
 
     @Override
     public final void play() {
+        if (completed) return;
         for (int i = 1; i <= getPeriodCount(); i++) {
             simulatePeriod(i);
         }

@@ -6,4 +6,5 @@
       alignment="CENTER" spacing="10" prefWidth="500" prefHeight="400">
     <Label text="Match Events"/>
     <TextArea fx:id="eventLog" editable="false" prefHeight="300" wrapText="true"/>
+    <Button fx:id="continueButton" text="View Results" onAction="#handleContinue"/>
 </VBox>

@@ -1,6 +1,7 @@
 package com.sportsmanager.ui;
 
 import com.sportsmanager.core.Match;
+import com.sportsmanager.core.Sport;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -15,6 +16,7 @@ public class PreMatchController {
     @FXML private Button simulateButton;
 
     private Match match;
+    private Sport sport;
 
     public void setMatch(Match match) {
         this.match = match;
@@ -22,15 +24,21 @@ public class PreMatchController {
         awayTeamLabel.setText(match.getAwayTeam().getName());
     }
 
+    public void setSport(Sport sport) {
+        this.sport = sport;
+    }
+
     @FXML
     private void handleSimulate() {
-        match.play();
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("PostMatch.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("MatchView.fxml"));
             Stage stage = (Stage) simulateButton.getScene().getWindow();
-            stage.setScene(new Scene(loader.load()));
-            PostMatchController controller = loader.getController();
-            controller.setMatch(match);
+            Scene scene = new Scene(loader.load());
+            MatchViewController mvc = loader.getController();
+            mvc.setMatch(match);
+            match.play();
+            mvc.setPostMatch(match);
+            stage.setScene(scene);
             stage.show();
         } catch (Exception e) {
             e.printStackTrace();

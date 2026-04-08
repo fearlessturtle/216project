@@ -52,4 +52,10 @@ public class MatchSimulatorTest {
         sim.simulateMatch(match);
         assertTrue(match.isCompleted());
     }
+
+    @Test
+    void testSimulateSeasonEmptyListDoesNotThrow() {
+        MatchSimulator sim = new MatchSimulator();
+        sim.simulateSeason(new ArrayList<>());
+    }
 }

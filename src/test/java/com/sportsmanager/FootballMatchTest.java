@@ -89,4 +89,15 @@ public class FootballMatchTest {
         int[] score = match.getScore();
         assertEquals(2, score.length);
     }
+
+    @Test
+    void testPlayTwiceDoesNotCrashOrChangeScore() {
+        Match match = createMatch();
+        match.play();
+        int h = match.getHomeScore();
+        int a = match.getAwayScore();
+        match.play();
+        assertEquals(h, match.getHomeScore());
+        assertEquals(a, match.getAwayScore());
+    }
 }

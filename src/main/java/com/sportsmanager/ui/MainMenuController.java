@@ -32,6 +32,7 @@ public class MainMenuController {
             Stage stage = (Stage) startButton.getScene().getWindow();
             stage.setScene(new Scene(loader.load()));
             PreMatchController controller = loader.getController();
+            controller.setSport(sport);
             controller.setMatch(match);
             stage.show();
         } catch (Exception e) {
