@@ -75,4 +75,18 @@ public abstract class AbstractMatch implements Match {
     public boolean isCompleted() {
         return completed;
     }
+
+    @Override
+    public int[] getScore() {
+        return new int[]{homeScore, awayScore};
+    }
+
+    @Override
+    public List<MatchEvent> getMatchEvents() {
+        return new ArrayList<>(events);
+    }
+
+    @Override
+    public void substitutePlayer(Team team, Player playerOut, Player playerIn) {
+    }
 }

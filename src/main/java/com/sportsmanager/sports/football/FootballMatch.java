@@ -139,6 +139,14 @@ public class FootballMatch extends AbstractMatch {
         team.setTactic(newTactic);
     }
 
+    @Override
+    public void substitutePlayer(Team team, Player playerOut, Player playerIn) {
+        List<Player> lineup = team.equals(homeTeam) ? homeLineup : awayLineup;
+        if (lineup != null && lineup.remove(playerOut)) {
+            lineup.add(playerIn);
+        }
+    }
+
     private void substitutePlayer(List<Player> lineup, Team team, int minute) {
         Player playerOut = null;
         int lowestRating = Integer.MAX_VALUE;
