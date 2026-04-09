@@ -4,7 +4,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
-
 class FootballCoachTest {
 
     private FootballPlayer forward;
@@ -26,12 +25,11 @@ class FootballCoachTest {
         fitnessCoach = new FootballCoach("T. Fitness",  45, "Fitness",  5);
     }
 
-
     @Test
     void test01_AttackCoach_ImprovesShooting_AndPassing() {
-        int shootBefore  = forward.getShooting();  // 85
-        int passBefore   = forward.getPassing();   // 70
-        int bonus        = attackCoach.getTrainingBonus(); // 4
+        int shootBefore = forward.getShooting();
+        int passBefore  = forward.getPassing();
+        int bonus       = attackCoach.getTrainingBonus(); // 4
 
         attackCoach.train(forward);
 
@@ -51,7 +49,7 @@ class FootballCoachTest {
 
     @Test
     void test03_DefenseCoach_ImprovesTackling() {
-        int tackBefore = defender.getTackling(); // 82
+        int tackBefore = defender.getTackling();
         int bonus      = defenseCoach.getTrainingBonus(); // 3
 
         defenseCoach.train(defender);
@@ -62,7 +60,10 @@ class FootballCoachTest {
 
     @Test
     void test04_FitnessCoach_ImprovesStamina() {
-        int stamBefore = midfielder.getStamina(); // 100
+        midfielder.applyMatchFatigue(); // stamina: 100 - 15 = 85
+        midfielder.applyMatchFatigue(); // stamina: 85 - 15 = 70
+
+        int stamBefore = midfielder.getStamina(); // 70
         int bonus      = fitnessCoach.getTrainingBonus(); // 2
 
         fitnessCoach.train(midfielder);
@@ -75,7 +76,7 @@ class FootballCoachTest {
     void test05_TrainingBonus_ScalesWithExperience() {
         assertEquals(1, new FootballCoach("J", 30, "Attack",  2).getTrainingBonus(), "0-4 yrs  → 1");
         assertEquals(2, new FootballCoach("M", 35, "Attack",  7).getTrainingBonus(), "5-9 yrs  → 2");
-        assertEquals(3, new FootballCoach("S", 45, "Attack", 12).getTrainingBonus(), "10-19 yrs→ 3");
+        assertEquals(3, new FootballCoach("S", 45, "Attack", 12).getTrainingBonus(), "10-19 yrs → 3");
         assertEquals(4, new FootballCoach("V", 55, "Attack", 25).getTrainingBonus(), "20+ yrs  → 4");
     }
 
@@ -95,10 +96,10 @@ class FootballCoachTest {
         int shootBefore = forward.getShooting(); // 85
         int bonus = attackCoach.getTrainingBonus(); // 4
 
-        attackCoach.train(forward);
-        attackCoach.train(forward);
+        attackCoach.train(forward); // 89
+        attackCoach.train(forward); // 93
 
         assertEquals(shootBefore + (bonus * 2), forward.getShooting(),
-                "Two training sessions should stack: +" + (bonus * 2));
+                "Two sessions should stack: +" + (bonus * 2));
     }
 }
