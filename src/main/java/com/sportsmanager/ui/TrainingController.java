@@ -17,7 +17,6 @@ import java.util.ResourceBundle;
 
 public class TrainingController implements Initializable {
 
-
     @FXML private Label    weekLabel;
     @FXML private Label    statusLabel;
     @FXML private Label    expectedGrowthLabel;
@@ -32,14 +31,10 @@ public class TrainingController implements Initializable {
     @FXML private ListView<String> playerListView;
     @FXML private ListView<String> coachListView;
 
-
     private Team         currentTeam;
     private Coach        selectedCoach;
-    private int          currentWeek = 1;
-
     private List<Player> playerObjects = new ArrayList<>();
     private List<Coach>  coachObjects  = new ArrayList<>();
-
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -47,111 +42,65 @@ public class TrainingController implements Initializable {
         updatePreview();
     }
 
-
     public void setTeam(Team team) {
         this.currentTeam = team;
         refreshPlayerList();
         refreshCoachList();
     }
 
-
     public void setCurrentWeek(int week) {
-        this.currentWeek = week;
-        if (weekLabel != null) {
-            weekLabel.setText("Week " + week);
-        }
+        if (weekLabel != null) weekLabel.setText("Week " + week);
     }
-
 
     private void setupCoachSelection() {
-        coachListView.getSelectionModel()
-                .selectedIndexProperty()
-                .addListener((obs, oldIdx, newIdx) -> {
-                    int idx = newIdx.intValue();
-                    if (idx >= 0 && idx < coachObjects.size()) {
-                        selectedCoach = coachObjects.get(idx);
-                        if (selectedCoachLabel != null) {
-                            selectedCoachLabel.setText(selectedCoach.getName());
-                        }
-                        if (coachBonusLabel != null) {
-                            coachBonusLabel.setText(
-                                    "+" + selectedCoach.getTrainingBonus()
-                                            + " Bonus  |  " + selectedCoach.getSpeciality());
-                        }
-                        updatePreview();
-                    }
-                });
+        coachListView.getSelectionModel().selectedIndexProperty().addListener((obs, o, n) -> {
+            int idx = n.intValue();
+            if (idx >= 0 && idx < coachObjects.size()) {
+                selectedCoach = coachObjects.get(idx);
+                if (selectedCoachLabel != null)
+                    selectedCoachLabel.setText(selectedCoach.getName());
+                if (coachBonusLabel != null)
+                    coachBonusLabel.setText("+" + selectedCoach.getTrainingBonus()
+                            + " Bonus  |  " + selectedCoach.getSpeciality());
+                updatePreview();
+            }
+        });
     }
 
-
-    @FXML
-    public void updatePreview() {
-        int bonus      = (selectedCoach != null) ? selectedCoach.getTrainingBonus() : 1;
-        int drillCount = countSelectedDrills();
-        int growth     = bonus * Math.max(drillCount, 1);
-
-        if (expectedGrowthLabel != null) {
-            expectedGrowthLabel.setText(
-                    "Expected attribute growth: +" + growth + " Overall");
-        }
+    @FXML public void updatePreview() {
+        int bonus  = (selectedCoach != null) ? selectedCoach.getTrainingBonus() : 1;
+        int drills = countSelectedDrills();
+        if (expectedGrowthLabel != null)
+            expectedGrowthLabel.setText("Expected attribute growth: +" + (bonus * Math.max(drills, 1)) + " Overall");
     }
 
-    @FXML
-    public void startTraining() {
-        if (currentTeam == null) {
-            setStatus("No team loaded.");
-            return;
-        }
-        if (countSelectedDrills() == 0) {
-            setStatus("Please select at least one drill.");
-            return;
-        }
+    @FXML public void startTraining() {
+        if (currentTeam == null)         { setStatus("No team loaded.");                    return; }
+        if (countSelectedDrills() == 0)  { setStatus("Please select at least one drill."); return; }
 
-        List<Integer> selectedIndices =
-                playerListView.getSelectionModel().getSelectedIndices();
-
-        if (selectedIndices.isEmpty()) {
-            setStatus("Please select at least one player.");
-            return;
-        }
+        List<Integer> sel = playerListView.getSelectionModel().getSelectedIndices();
+        if (sel.isEmpty()) { setStatus("Please select at least one player."); return; }
 
         int trained = 0;
-        for (int idx : selectedIndices) {
+        for (int idx : sel) {
             if (idx >= 0 && idx < playerObjects.size()) {
-                Player player = playerObjects.get(idx);
-                if (player.isAvailable()) {
-                    // Player interface üzerinden çağrı
-                    // FootballPlayer ne yapacağını kendi bilir
-                    player.train(selectedCoach);
-                    trained++;
-                }
+                Player p = playerObjects.get(idx);
+                if (p.isAvailable()) { p.train(selectedCoach); trained++; }
             }
         }
-
         setStatus(trained + " player(s) trained successfully.");
-        refreshPlayerList(); // Rating değişmiş olabilir
+        refreshPlayerList();
     }
 
-
-    @FXML
-    public void goBack() {
-        setStatus("Returning to league view...");
-    }
-
+    @FXML public void goBack() { setStatus("Returning..."); }
 
     private void refreshPlayerList() {
         if (currentTeam == null) return;
         playerObjects = new ArrayList<>(currentTeam.getPlayers());
-
         List<String> display = new ArrayList<>();
         for (Player p : playerObjects) {
-            String status = p.isInjured()
-                    ? " [INJURED]"
-                    : (p.isAvailable() ? "" : " [TIRED]");
-            display.add(p.getName()
-                    + "  (" + p.getPosition() + ")"
-                    + "  Rating: " + p.getOverallRating()
-                    + status);
+            String st = p.isInjured() ? " [INJURED]" : (p.isAvailable() ? "" : " [TIRED]");
+            display.add(p.getName() + " (" + p.getPosition() + ")  Rating:" + p.getOverallRating() + st);
         }
         playerListView.setItems(FXCollections.observableArrayList(display));
         playerListView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
@@ -160,26 +109,20 @@ public class TrainingController implements Initializable {
     private void refreshCoachList() {
         if (currentTeam == null) return;
         coachObjects = new ArrayList<>(currentTeam.getCoaches());
-
         List<String> display = new ArrayList<>();
-        for (Coach c : coachObjects) {
-            display.add(c.getName()
-                    + "  |  " + c.getSpeciality()
-                    + "  |  +" + c.getTrainingBonus() + " bonus");
-        }
+        for (Coach c : coachObjects)
+            display.add(c.getName() + "  |  " + c.getSpeciality() + "  |  +" + c.getTrainingBonus() + " bonus");
         coachListView.setItems(FXCollections.observableArrayList(display));
     }
 
     private int countSelectedDrills() {
-        int count = 0;
-        if (chkShooting  != null && chkShooting.isSelected())  count++;
-        if (chkDefensive != null && chkDefensive.isSelected()) count++;
-        if (chkStamina   != null && chkStamina.isSelected())   count++;
-        if (chkPassing   != null && chkPassing.isSelected())   count++;
-        return count;
+        int c = 0;
+        if (chkShooting  != null && chkShooting.isSelected())  c++;
+        if (chkDefensive != null && chkDefensive.isSelected()) c++;
+        if (chkStamina   != null && chkStamina.isSelected())   c++;
+        if (chkPassing   != null && chkPassing.isSelected())   c++;
+        return c;
     }
 
-    private void setStatus(String msg) {
-        if (statusLabel != null) statusLabel.setText(msg);
-    }
+    private void setStatus(String msg) { if (statusLabel != null) statusLabel.setText(msg); }
 }
