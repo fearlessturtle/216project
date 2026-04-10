@@ -27,28 +27,28 @@ public class LeagueViewController implements Initializable {
     private Label seasonLabel;
 
     @FXML
-    private TableView<TeamStanding> standingsTable;
+    private TableView<TeamStandingRow> standingsTable;
     
     @FXML
-    private TableColumn<TeamStanding, String> teamColumn;
+    private TableColumn<TeamStandingRow, String> teamColumn;
     
     @FXML
-    private TableColumn<TeamStanding, Integer> playedColumn;
+    private TableColumn<TeamStandingRow, Integer> playedColumn;
     
     @FXML
-    private TableColumn<TeamStanding, Integer> winsColumn;
+    private TableColumn<TeamStandingRow, Integer> winsColumn;
     
     @FXML
-    private TableColumn<TeamStanding, Integer> drawsColumn;
+    private TableColumn<TeamStandingRow, Integer> drawsColumn;
     
     @FXML
-    private TableColumn<TeamStanding, Integer> lossesColumn;
+    private TableColumn<TeamStandingRow, Integer> lossesColumn;
     
     @FXML
-    private TableColumn<TeamStanding, Integer> pointsColumn;
+    private TableColumn<TeamStandingRow, Integer> pointsColumn;
     
     @FXML
-    private TableColumn<TeamStanding, Integer> goalDifferenceColumn;
+    private TableColumn<TeamStandingRow, Integer> goalDifferenceColumn;
 
     @FXML
     private Label nextFixtureLabel;
@@ -86,13 +86,13 @@ public class LeagueViewController implements Initializable {
      * Uses only core interface methods - no knowledge of concrete implementations.
      */
     private void initializeStandingsTable() {
-        teamColumn.setCellValueFactory(new PropertyValueFactory<>("teamName"));
-        playedColumn.setCellValueFactory(new PropertyValueFactory<>("gamesPlayed"));
-        winsColumn.setCellValueFactory(new PropertyValueFactory<>("wins"));
-        drawsColumn.setCellValueFactory(new PropertyValueFactory<>("draws"));
-        lossesColumn.setCellValueFactory(new PropertyValueFactory<>("losses"));
-        pointsColumn.setCellValueFactory(new PropertyValueFactory<>("points"));
-        goalDifferenceColumn.setCellValueFactory(new PropertyValueFactory<>("goalDifference"));
+        teamColumn.setCellValueFactory(new PropertyValueFactory<TeamStandingRow, String>("teamName"));
+        playedColumn.setCellValueFactory(new PropertyValueFactory<TeamStandingRow, Integer>("gamesPlayed"));
+        winsColumn.setCellValueFactory(new PropertyValueFactory<TeamStandingRow, Integer>("wins"));
+        drawsColumn.setCellValueFactory(new PropertyValueFactory<TeamStandingRow, Integer>("draws"));
+        lossesColumn.setCellValueFactory(new PropertyValueFactory<TeamStandingRow, Integer>("losses"));
+        pointsColumn.setCellValueFactory(new PropertyValueFactory<TeamStandingRow, Integer>("points"));
+        goalDifferenceColumn.setCellValueFactory(new PropertyValueFactory<TeamStandingRow, Integer>("goalDifference"));
     }
 
     /**

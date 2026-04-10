@@ -98,9 +98,6 @@ public class SaveGameManager {
         leagueData.addProperty("currentWeek", sport.getCurrentWeek());
         leagueData.addProperty("isSeasonOver", sport.isSeasonOver());
 
-        // Serialize matches/fixtures
-        leagueData.add("fixtures", gson.toJsonTree(sport.getFixtures()));
-
         // Serialize standings
         leagueData.add("standings", gson.toJsonTree(sport.getLeagueTable()));
 
