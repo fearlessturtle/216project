@@ -11,7 +11,6 @@ public interface Team {
     List<Player> selectLineup();
     void trainWeek();
 
-
     List<Coach> getCoaches();
     Tactic getTactic();
     void setTactic(Tactic tactic);

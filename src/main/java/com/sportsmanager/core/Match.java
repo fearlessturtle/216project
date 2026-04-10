@@ -11,7 +11,11 @@ public interface Match {
     int getAwayScore();
     boolean isCompleted();
 
+<<<<<<< Updated upstream
     int[] getScore();
+=======
+    int getScore();
+>>>>>>> Stashed changes
     List<MatchEvent> getMatchEvents();
     void applyTacticChange(Team team, Tactic newTactic);
     void substitutePlayer(Team team, Player playerOut, Player playerIn);
