@@ -1,58 +1,57 @@
 package com.sportsmanager.sports.football;
 
 import com.sportsmanager.core.Tactic;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class FootballTactic implements Tactic {
-    private String tacticName;
-    private Map<String, Integer> formation;
-    private double offensiveBonus;
-    private double defensiveBonus;
+    private String formation;
+    private Map<String, Integer> formationMap;
+    private int attackBonus;
+    private int defenseBonus;
 
-    public FootballTactic(String tacticName, double offensiveBonus, double defensiveBonus) {
-        this.tacticName = tacticName;
-        this.offensiveBonus = offensiveBonus;
-        this.defensiveBonus = defensiveBonus;
-        this.formation = new HashMap<>();
-
-        // Every football tactic always requires 1 Goalkeeper
-        formation.put("GK", 1);
-
-        if ("4-3-3".equals(tacticName)) {
-            formation.put("DF", 4);
-            formation.put("MF", 3);
-            formation.put("FW", 3);
-        } else if ("3-5-2".equals(tacticName)) {
-            formation.put("DF", 3);
-            formation.put("MF", 5);
-            formation.put("FW", 2);
-        } else {
-            // Default to 4-4-2 if no specific format is passed
-            this.tacticName = "4-4-2";
-            formation.put("DF", 4);
-            formation.put("MF", 4);
-            formation.put("FW", 2);
-        }
+    public FootballTactic(String formation, int attackBonus, int defenseBonus) {
+        this.formation = formation;
+        this.attackBonus = attackBonus;
+        this.defenseBonus = defenseBonus;
+        this.formationMap = parseFormation(formation);
     }
 
     @Override
     public String getTacticName() {
-        return tacticName;
+        return formation;
     }
 
     @Override
     public Map<String, Integer> getFormation() {
-        return new HashMap<>(formation);
+        return new HashMap<>(formationMap);
+    }
+
+    private Map<String, Integer> parseFormation(String formationStr) {
+        Map<String, Integer> map = new HashMap<>();
+        String[] parts = formationStr.split("-");
+        if (parts.length == 3) {
+            map.put("defenders", Integer.parseInt(parts[0]));
+            map.put("midfielders", Integer.parseInt(parts[1]));
+            map.put("forwards", Integer.parseInt(parts[2]));
+        }
+        return map;
     }
 
     @Override
     public double getOffensiveBonus() {
-        return offensiveBonus;
+        return attackBonus;
     }
 
     @Override
     public double getDefensiveBonus() {
-        return defensiveBonus;
+        return defenseBonus;
+    }
+
+    public int getAttackBonus() {
+        return attackBonus;
+    }
+
+    public int getDefenseBonus() {
+        return defenseBonus;
     }
 }

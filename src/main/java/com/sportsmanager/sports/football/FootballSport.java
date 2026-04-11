@@ -12,11 +12,11 @@ import java.util.*;
 public class FootballSport implements Sport {
 
     private SportFactory factory;
-    private AbstractLeague league; // Using AbstractLeague to safely access addTeam() and setCurrentWeek()
+    private AbstractLeague league; // Using AbstractLeague to access addTeam(), setCurrentWeek()
 
     public FootballSport() {
         this.factory = new FootballFactory();
-        this.league = new FootballLeague(); // Fixed: Directly instantiated since SportFactory omits createLeague()
+        this.league = (AbstractLeague) factory.createLeague();
     }
 
     @Override
@@ -52,10 +52,10 @@ public class FootballSport implements Sport {
                 }
             }
         } catch (Exception e) {
-            // Safely ignore if parsing fails or if Ilkin hasn't added names.json yet
+            // Ignore exception and use fallback names below
         }
 
-        // Fallback names ensuring we always have at least 20 unique teams so the app NEVER crashes
+        // Fallback names ensuring we always have at least 20 unique teams
         return new ArrayList<>(Arrays.asList(
                 "Lions", "Tigers", "Eagles", "Bears", "Wolves", "Sharks", "Panthers", "Hawks", "Falcons", "Ravens",
                 "Bulls", "Rhinos", "Stallions", "Cobras", "Vipers", "Jaguars", "Pythons", "Dragons", "Griffins", "Knights"
@@ -80,7 +80,7 @@ public class FootballSport implements Sport {
 
     @Override
     public void playMatch(Match match) {
-        // ALWAYS go through FootballMatch as requested by your M05 critical instructions
+        // ALWAYS go through FootballMatch as requested
         match.play();
         league.updateStandings(match);
     }
@@ -107,7 +107,7 @@ public class FootballSport implements Sport {
 
     @Override
     public int getPeriodCount() {
-        return 2; // Football matches always have 2 halves
+        return 2; // Football always has 2 halves
     }
 
     @Override
