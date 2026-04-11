@@ -5,10 +5,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class FootballTactic implements Tactic {
+
     private String tacticName;
-    private Map<String, Integer> formation;
-    private double offensiveBonus;
-    private double defensiveBonus;
+    private final Map<String, Integer> formation;
+    private final double offensiveBonus;
+    private final double defensiveBonus;
 
     public FootballTactic(String tacticName, double offensiveBonus, double defensiveBonus) {
         this.tacticName = tacticName;
@@ -16,7 +17,6 @@ public class FootballTactic implements Tactic {
         this.defensiveBonus = defensiveBonus;
         this.formation = new HashMap<>();
 
-        // Every football tactic always requires 1 Goalkeeper
         formation.put("GK", 1);
 
         if ("4-3-3".equals(tacticName)) {
@@ -28,7 +28,6 @@ public class FootballTactic implements Tactic {
             formation.put("MF", 5);
             formation.put("FW", 2);
         } else {
-            // Default to 4-4-2 if no specific format is passed
             this.tacticName = "4-4-2";
             formation.put("DF", 4);
             formation.put("MF", 4);
