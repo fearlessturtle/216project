@@ -62,6 +62,11 @@ public class FootballFactory implements SportFactory {
     }
 
     @Override
+    public AbstractLeague createLeague() {
+        return null;
+    }
+
+    @Override
     public List<String> getSupportedSports() {
         return Arrays.asList("Football");
     }

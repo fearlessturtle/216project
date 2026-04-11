@@ -11,9 +11,7 @@ public interface Match {
     int getAwayScore();
     boolean isCompleted();
 
-    // Return both scores as [homeScore, awayScore]
     int[] getScore();
-
     List<MatchEvent> getMatchEvents();
     void applyTacticChange(Team team, Tactic newTactic);
     void substitutePlayer(Team team, Player playerOut, Player playerIn);
