@@ -78,6 +78,17 @@ public abstract class AbstractPlayer implements Player {
     public String getGender() {
         return gender;
     }
+
+    public void setInjuryGamesLeft(int games) {
+        this.injuryGames = games;
+        if (games > 0) {
+            this.injured = true;
+        } else {
+            this.injured = false;
+            this.injuryGames = 0;
+        }
+    }
+
     @Override
     public String toString() {
         return name + " (" + position + ") | Rating: " + getOverallRating()

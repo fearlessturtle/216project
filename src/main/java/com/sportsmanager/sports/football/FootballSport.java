@@ -114,4 +114,9 @@ public class FootballSport implements Sport {
     public List<String> getPositions() {
         return Arrays.asList("GK", "DF", "MF", "FW");
     }
+
+    @Override
+    public void setCurrentWeek(int week) {
+        league.setCurrentWeek(week);
+    }
 }

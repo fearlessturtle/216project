@@ -80,10 +80,8 @@ public class SaveGameManager {
             String content = Files.readString(leagueFile);
             JsonObject leagueData = JsonParser.parseString(content).getAsJsonObject();
             
-            // TODO: Restore currentWeek and standings to Sport object
-            // Blocked: Sport interface needs setCurrentWeek() method (Milena - FootballSport)
-            // Once available: int week = leagueData.get("currentWeek").getAsInt();
-            //                sport.setCurrentWeek(week);
+            int week = leagueData.get("currentWeek").getAsInt();
+            sport.setCurrentWeek(week);
         }
     }
 
@@ -135,9 +133,7 @@ public class SaveGameManager {
                                     JsonObject coachObj = coachElem.getAsJsonObject();
                                     Coach coach = deserializeCoach(factory, coachObj);
                                     if (coach != null) {
-                                        // TODO: Add coach to team
-                                        // Blocked: Team interface needs addCoach() method (Milena - Team interface)
-                                        // Once available: team.addCoach(coach);
+                                        team.addCoach(coach);
                                     }
                                 }
                             }
@@ -166,10 +162,7 @@ public class SaveGameManager {
                 boolean injured = playerObj.get("injured").getAsBoolean();
                 if (injured && playerObj.has("injuryGamesLeft")) {
                     int gamesLeft = playerObj.get("injuryGamesLeft").getAsInt();
-                    // TODO: Set injury games left directly
-                    // Blocked: AbstractPlayer needs setInjuryGamesLeft() method (Ilkin - AbstractPlayer)
-                    // Current recoverOneGame() loop would decrement, not set the value
-                    // Once available: abstractPlayer.setInjuryGamesLeft(gamesLeft);
+                    abstractPlayer.setInjuryGamesLeft(gamesLeft);
                 }
             }
         }
