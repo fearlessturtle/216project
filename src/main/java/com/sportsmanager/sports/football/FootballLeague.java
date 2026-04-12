@@ -57,18 +57,15 @@ public class FootballLeague extends AbstractLeague {
             int p2 = s2.getPoints(3, 1);
             if (p1 != p2) return Integer.compare(p2, p1);
 
-            // 2. Head to head
             int h2hCompare = compareHeadToHead(t1, t2);
             if (h2hCompare != 0) {
                 return h2hCompare;
             }
 
-            // 3. Goal difference
             if (s1.getGoalDifference() != s2.getGoalDifference()) {
                 return Integer.compare(s2.getGoalDifference(), s1.getGoalDifference());
             }
 
-            // 4. Coin toss
             return random.nextInt(2) == 0 ? -1 : 1;
         });
 
