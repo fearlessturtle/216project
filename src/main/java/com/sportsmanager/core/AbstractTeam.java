@@ -80,3 +80,4 @@ public abstract class AbstractTeam implements Team {
     @Override
     public abstract void trainWeek();
 }
+
