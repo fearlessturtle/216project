@@ -63,7 +63,7 @@ public class FootballFactory implements SportFactory {
 
     @Override
     public AbstractLeague createLeague() {
-        return null;
+        return new FootballLeague();
     }
 
     @Override

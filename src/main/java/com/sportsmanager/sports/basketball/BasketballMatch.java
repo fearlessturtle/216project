@@ -42,8 +42,10 @@ public class BasketballMatch extends AbstractMatch {
             double homeAvg = calcAvg(homeLineup);
             double awayAvg = calcAvg(awayLineup);
 
-            double homeSc = (homeAvg / 100.0) * homeTeam.getTactic().getOffensiveBonus() * 0.35;
-            double awaySc = (awayAvg / 100.0) * awayTeam.getTactic().getOffensiveBonus() * 0.35;
+            double homeOff = homeTeam.getTactic() != null ? homeTeam.getTactic().getOffensiveBonus() : 1.0;
+            double awayOff = awayTeam.getTactic() != null ? awayTeam.getTactic().getOffensiveBonus() : 1.0;
+            double homeSc = (homeAvg / 100.0) * homeOff * 0.35;
+            double awaySc = (awayAvg / 100.0) * awayOff * 0.35;
 
             if (random.nextDouble() < homeSc) {
                 int pts = random.nextDouble() < 0.25 ? 3 : 2;
@@ -97,5 +99,17 @@ public class BasketballMatch extends AbstractMatch {
     @Override
     public void applyTacticChange(Team team, Tactic newTactic) {
         team.setTactic(newTactic);
+    }
+
+    @Override
+    public void substitutePlayer(Team team, Player playerOut, Player playerIn) {
+        if (team == null || playerOut == null || playerIn == null) {
+            return;
+        }
+
+        List<Player> lineup = team.equals(homeTeam) ? homeLineup : awayLineup;
+        if (lineup != null && lineup.remove(playerOut)) {
+            lineup.add(playerIn);
+        }
     }
 }

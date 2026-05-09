@@ -1,22 +1,24 @@
 package com.sportsmanager.sports.basketball;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.sportsmanager.core.Match;
 import com.sportsmanager.core.Sport;
 import com.sportsmanager.core.Team;
 import com.sportsmanager.core.TeamStanding;
 
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
 public class BasketballSport implements Sport {
 
     private BasketballLeague league;
-    private int currentWeek = 0;
 
     @Override
     public String getSportName() {
@@ -39,6 +41,7 @@ public class BasketballSport implements Sport {
         league = new BasketballLeague();
 
         List<String> names = loadNames();
+        Collections.shuffle(names);
         Random random = new Random();
 
         for (int i = 0; i < 10; i++) {
@@ -94,20 +97,20 @@ public class BasketballSport implements Sport {
     @Override
     public void simulateWeek() {
 
-        if (league == null) return;
+        if (league == null || isSeasonOver()) return;
 
-        List<Match> matches = league.getFixtures();
-
-        int startIndex = currentWeek * 5;
-
-        for (int i = startIndex;
-             i < startIndex + 5 && i < matches.size();
-             i++) {
-
-            playMatch(matches.get(i));
+        int simulated = 0;
+        for (Match match : league.getNextMatches()) {
+            if (!match.isCompleted()) {
+                playMatch(match);
+                simulated++;
+                if (simulated == 5) {
+                    break;
+                }
+            }
         }
 
-        currentWeek++;
+        league.setCurrentWeek(league.getCurrentWeek() + 1);
     }
 
     @Override
@@ -116,17 +119,21 @@ public class BasketballSport implements Sport {
         if (match == null) return;
 
         match.play();
-        league.updateStandings(match);
+        if (league != null) {
+            league.updateStandings(match);
+        }
     }
 
     @Override
     public List<Team> getTeams() {
-        return List.of();
+        if (league == null) return List.of();
+        return league.getTeams();
     }
 
     @Override
     public List<TeamStanding> getLeagueTable() {
-        return List.of();
+        if (league == null) return List.of();
+        return league.getStandings();
     }
 
     public BasketballLeague getLeague() {
@@ -134,41 +141,39 @@ public class BasketballSport implements Sport {
     }
 
     public int getCurrentWeek() {
-        return currentWeek;
+        return league != null ? league.getCurrentWeek() : 0;
     }
 
     @Override
     public boolean isSeasonOver() {
-        return false;
+        return league != null && league.isSeasonOver();
     }
 
     @Override
     public void setCurrentWeek(int week) {
-        this.currentWeek = week;
+        if (league != null) {
+            league.setCurrentWeek(week);
+        }
     }
 
     private List<String> loadNames() {
 
         try {
-
-            ObjectMapper mapper = new ObjectMapper();
-
-            InputStream inputStream =
-                    getClass().getResourceAsStream("/names.json");
-
-            if (inputStream == null) {
-                return new ArrayList<>();
+            InputStream is = getClass().getClassLoader().getResourceAsStream("names.json");
+            if (is != null) {
+                Gson gson = new Gson();
+                Type listType = new TypeToken<List<String>>() {}.getType();
+                List<String> names = gson.fromJson(new InputStreamReader(is), listType);
+                if (names != null && names.size() >= 10) {
+                    return names;
+                }
             }
-
-            return mapper.readValue(
-                    inputStream,
-                    new TypeReference<List<String>>() {}
-            );
-
         } catch (Exception e) {
-
-            e.printStackTrace();
-            return new ArrayList<>();
         }
+
+        return new ArrayList<>(Arrays.asList(
+                "Chicago", "Boston", "Miami", "Dallas", "Denver",
+                "Phoenix", "Brooklyn", "Toronto", "Milwaukee", "Atlanta"
+        ));
     }
 }
