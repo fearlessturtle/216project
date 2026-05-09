@@ -13,6 +13,7 @@ public interface Team {
 
 
     List<Coach> getCoaches();
+    void addCoach(Coach coach);
     Tactic getTactic();
     void setTactic(Tactic tactic);
 }

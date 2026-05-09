@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<VBox xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.sportsmanager.ui.PreMatchController"
+      alignment="CENTER" spacing="20" prefWidth="400" prefHeight="300">
+    <Label fx:id="homeTeamLabel" text="Home Team"/>
+    <Label text="vs"/>
+    <Label fx:id="awayTeamLabel" text="Away Team"/>
+    <Button fx:id="simulateButton" text="Simulate Match" onAction="#handleSimulate"/>
+</VBox>

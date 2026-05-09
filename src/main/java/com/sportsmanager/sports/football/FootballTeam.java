@@ -17,36 +17,31 @@ public class FootballTeam extends AbstractTeam {
     public List<Player> selectLineup() {
         List<Player> lineup = new ArrayList<>();
 
-
-        List<Player> available = getAvailablePlayers();
-
-
-        for (Player p : available) {
-            if (!p.isInjured()) {
-                lineup.add(p);
-
-                if (lineup.size() == 11) {
-                    break;
+        for (Player p : getAvailablePlayers()) {
+            if (p instanceof FootballPlayer) {
+                FootballPlayer fp = (FootballPlayer) p;
+                if (!fp.isInjured()) {
+                    lineup.add(fp);
                 }
             }
+            if (lineup.size() == 11) break;
         }
+
         return lineup;
     }
 
     @Override
     public void trainWeek() {
+        for (Coach c : getCoaches()) {
+            if (c instanceof FootballCoach) {
+                FootballCoach fc = (FootballCoach) c;
+                for (Player p : getAvailablePlayers()) {
+                    if (p instanceof FootballPlayer) {
+                        FootballPlayer fp = (FootballPlayer) p;
+                        fp.train(fc);
+                    }
+                }
 
-        List<Coach> teamCoaches = getCoaches();
-        if (teamCoaches.isEmpty()) {
-            return;
-        }
-
-
-        Coach primaryCoach = teamCoaches.get(0);
-
-        for (Player p : getAvailablePlayers()) {
-            if (!p.isInjured()) {
-                p.train(primaryCoach);
             }
         }
     }

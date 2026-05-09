@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<VBox xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.sportsmanager.ui.MatchViewController"
+      alignment="CENTER" spacing="10" prefWidth="500" prefHeight="400">
+    <Label text="Match Events"/>
+    <TextArea fx:id="eventLog" editable="false" prefHeight="300" wrapText="true"/>
+    <Button fx:id="continueButton" text="View Results" onAction="#handleContinue"/>
+</VBox>

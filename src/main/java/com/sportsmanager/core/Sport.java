@@ -23,4 +23,6 @@ public interface Sport {
     int getPeriodCount();
 
     List<String> getPositions();
+
+    void setCurrentWeek(int week);
 }
