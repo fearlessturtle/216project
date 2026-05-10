@@ -9,12 +9,20 @@ public class MatchSimulator {
     }
 
     public void simulateMatch(Match match) {
-        match.play();
+        if (match != null) {
+            match.play();
+        }
     }
 
     public void simulateSeason(List<Match> matches) {
+        if (matches == null) {
+            return;
+        }
+
         for (Match m : matches) {
-            m.play();
+            if (m != null) {
+                m.play();
+            }
         }
     }
 }

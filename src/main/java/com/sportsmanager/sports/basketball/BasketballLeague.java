@@ -1,6 +1,7 @@
 package com.sportsmanager.sports.basketball;
 
 import com.sportsmanager.core.*;
+import com.sportsmanager.engine.FixtureGenerator;
 import java.util.*;
 
 public class BasketballLeague extends AbstractLeague {
@@ -15,34 +16,10 @@ public class BasketballLeague extends AbstractLeague {
 
         fixtures.clear();
 
-        List<Team> rot = new ArrayList<>(teams);
-        Team fixed = rot.remove(0);
-
-        for (int leg = 0; leg < 2; leg++) {
-            for (int round = 0; round < 9; round++) {
-                Team h = leg == 0 ? fixed : rot.get(0);
-                Team a = leg == 0 ? rot.get(0) : fixed;
-                fixtures.add(new BasketballMatch(h, a));
-
-                for (int i = 0; i < rot.size() / 2; i++) {
-                    Team t1 = rot.get(i + 1 < rot.size() ? i + 1 : i);
-                    Team t2 = rot.get(rot.size() - 1 - i);
-                    if (!t1.equals(t2)) {
-                        if (leg == 0) {
-                            fixtures.add(new BasketballMatch(t1, t2));
-                        } else {
-                            fixtures.add(new BasketballMatch(t2, t1));
-                        }
-                    }
-                }
-
-                rotateTeams(rot);
-            }
+        FixtureGenerator generator = new FixtureGenerator();
+        for (Team[] pair : generator.generatePairs(teams)) {
+            fixtures.add(new BasketballMatch(pair[0], pair[1]));
         }
-    }
-
-    private void rotateTeams(List<Team> list) {
-        list.add(1, list.remove(list.size() - 1));
     }
 
     @Override
@@ -50,7 +27,6 @@ public class BasketballLeague extends AbstractLeague {
         if (tiedTeams.size() <= 1) return tiedTeams;
 
         List<Team> result = new ArrayList<>(tiedTeams);
-        Random rng = new Random();
 
         result.sort((t1, t2) -> {
             TeamStanding s1 = standings.get(t1);
@@ -66,7 +42,15 @@ public class BasketballLeague extends AbstractLeague {
             int gd2 = s2 != null ? s2.getGoalDifference() : 0;
             if (gd1 != gd2) return Integer.compare(gd2, gd1);
 
-            return rng.nextInt(2) == 0 ? -1 : 1;
+            long c1 = coinTossScore(t1);
+            long c2 = coinTossScore(t2);
+            if (c1 != c2) {
+                return Long.compare(c2, c1);
+            }
+
+            String name1 = t1 != null && t1.getName() != null ? t1.getName() : "";
+            String name2 = t2 != null && t2.getName() != null ? t2.getName() : "";
+            return name1.compareToIgnoreCase(name2);
         });
 
         return result;
@@ -81,11 +65,11 @@ public class BasketballLeague extends AbstractLeague {
             int hs = match.getHomeScore();
             int as = match.getAwayScore();
 
-            if (home.equals(a) && away.equals(b)) {
+            if (home != null && away != null && home.equals(a) && away.equals(b)) {
                 if (hs > as) scA += 2;
                 else if (hs == as) { scA += 1; scB += 1; }
                 else scB += 2;
-            } else if (home.equals(b) && away.equals(a)) {
+            } else if (home != null && away != null && home.equals(b) && away.equals(a)) {
                 if (hs > as) scB += 2;
                 else if (hs == as) { scA += 1; scB += 1; }
                 else scA += 2;

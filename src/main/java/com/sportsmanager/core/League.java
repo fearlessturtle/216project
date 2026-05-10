@@ -10,6 +10,13 @@ public interface League {
 
     List<TeamStanding> getStandings();
 
+    void addTeam(Team team);
+    void resetSeason();
+
+    int getCurrentWeek();
+
+    void setCurrentWeek(int week);
+
     List<Match> getNextMatches();
 
     void generateFixture();

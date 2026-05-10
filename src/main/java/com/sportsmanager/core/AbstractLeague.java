@@ -9,6 +9,7 @@ public abstract class AbstractLeague implements League {
     protected Map<Team, TeamStanding> standings;
     protected int currentWeek;
     private Set<Match> processedMatches;
+    protected long tieBreakSeed;
 
     public AbstractLeague() {
         this.teams = new ArrayList<>();
@@ -16,6 +17,7 @@ public abstract class AbstractLeague implements League {
         this.standings = new HashMap<>();
         this.currentWeek = 0;
         this.processedMatches = new HashSet<>();
+        this.tieBreakSeed = new Random().nextLong();
     }
 
     @Override
@@ -56,7 +58,13 @@ public abstract class AbstractLeague implements League {
 
     @Override
     public List<Match> getNextMatches() {
-        return new ArrayList<>(fixtures);
+        List<Match> nextMatches = new ArrayList<>();
+        for (Match match : fixtures) {
+            if (match != null && !match.isCompleted()) {
+                nextMatches.add(match);
+            }
+        }
+        return nextMatches;
     }
 
     @Override
@@ -64,7 +72,7 @@ public abstract class AbstractLeague implements League {
 
     @Override
     public void updateStandings(Match match) {
-        if (processedMatches.contains(match)) {
+        if (match == null || !match.isCompleted() || processedMatches.contains(match)) {
             return;
         }
 
@@ -118,8 +126,25 @@ public abstract class AbstractLeague implements League {
     public abstract List<Team> applyTiebreaker(List<Team> teams);
 
     public void addTeam(Team team) {
-        if (!teams.contains(team)) {
+        if (team != null && !teams.contains(team)) {
             teams.add(team);
+            standings.put(team, new TeamStanding(team, 0, 0, 0, 0, 0));
+        }
+    }
+
+    @Override
+    public void resetSeason() {
+        processedMatches.clear();
+        fixtures = new ArrayList<>();
+        standings = new HashMap<>();
+        currentWeek = 0;
+        tieBreakSeed = new Random().nextLong();
+
+        for (Team team : teams) {
+            if (team == null) {
+                continue;
+            }
+            team.resetSeasonState();
             standings.put(team, new TeamStanding(team, 0, 0, 0, 0, 0));
         }
     }
@@ -130,5 +155,16 @@ public abstract class AbstractLeague implements League {
 
     public int getCurrentWeek() {
         return currentWeek;
+    }
+
+    protected long coinTossScore(Team team) {
+        String teamName = team != null && team.getName() != null ? team.getName() : "";
+        long mixed = tieBreakSeed ^ (long) teamName.hashCode() * 0x9E3779B97F4A7C15L;
+        mixed ^= (mixed >>> 33);
+        mixed *= 0xff51afd7ed558ccdL;
+        mixed ^= (mixed >>> 33);
+        mixed *= 0xc4ceb9fe1a85ec53L;
+        mixed ^= (mixed >>> 33);
+        return mixed;
     }
 }

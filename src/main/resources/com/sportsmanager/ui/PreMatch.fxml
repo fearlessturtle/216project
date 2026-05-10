@@ -1,11 +1,61 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<VBox xmlns:fx="http://javafx.com/fxml"
-      fx:controller="com.sportsmanager.ui.PreMatchController"
-      alignment="CENTER" spacing="20" prefWidth="400" prefHeight="300">
-    <Label fx:id="homeTeamLabel" text="Home Team"/>
-    <Label text="vs"/>
-    <Label fx:id="awayTeamLabel" text="Away Team"/>
-    <Button fx:id="simulateButton" text="Simulate Match" onAction="#handleSimulate"/>
-</VBox>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.sportsmanager.ui.PreMatchController"
+            stylesheets="@app.css"
+            prefWidth="1200" prefHeight="720"
+            styleClass="prematch-root">
+    <top>
+        <VBox spacing="8" styleClass="prematch-header">
+            <Label text="READY?" styleClass="eyebrow"/>
+            <Label text="Last chance to prep. Then you're on."
+                   styleClass="status-line-light" wrapText="true"/>
+        </VBox>
+    </top>
+
+    <center>
+        <StackPane>
+            <Region styleClass="orb orb-one"/>
+            <Region styleClass="orb orb-two"/>
+            <Region styleClass="orb orb-three"/>
+            <VBox fx:id="previewCard" alignment="CENTER" spacing="18" maxWidth="720" styleClass="fixture-card preview-card">
+                <HBox alignment="CENTER" spacing="10">
+                    <Label fx:id="sportBadgeLabel" text="GAME TIME" styleClass="prematch-chip-broadcast"/>
+                    <Label fx:id="previewMoodLabel" text="Crowd building" styleClass="prematch-chip-mood"/>
+                </HBox>
+                <Label text="UP NEXT" styleClass="preview-title"/>
+                <HBox alignment="CENTER" spacing="24">
+                    <VBox alignment="CENTER" spacing="10">
+                        <Label text="HOME" styleClass="prematch-chip-home"/>
+                        <Label fx:id="homeTeamLabel" text="Home Team" styleClass="preview-team-name"/>
+                    </VBox>
+                    <VBox alignment="CENTER" spacing="8">
+                        <Label text="VS" styleClass="preview-vs"/>
+                        <Label text="One match" styleClass="preview-detail"/>
+                    </VBox>
+                    <VBox alignment="CENTER" spacing="10">
+                        <Label text="AWAY" styleClass="prematch-chip-away"/>
+                        <Label fx:id="awayTeamLabel" text="Away Team" styleClass="preview-team-name"/>
+                    </VBox>
+                </HBox>
+                <Label fx:id="previewNarrativeLabel"
+                       text="Let's see what happens."
+                       styleClass="preview-narrative"
+                       wrapText="true"
+                       maxWidth="560"/>
+                <HBox alignment="CENTER" spacing="10">
+                    <Label fx:id="previewDetailLabel" text="Your show to run." styleClass="prematch-chip-meta"/>
+                    <Label fx:id="managedTeamLabel" text="Managed club: --" styleClass="prematch-chip-club"/>
+                </HBox>
+                <Label fx:id="previewTaglineLabel"
+                       text="It's your moment."
+                       styleClass="preview-tagline"
+                       wrapText="true"
+                       maxWidth="560"/>
+                <Button fx:id="simulateButton" text="Start Match" onAction="#handleSimulate" styleClass="primary-action"/>
+            </VBox>
+        </StackPane>
+    </center>
+</BorderPane>

@@ -1,0 +1,17 @@
+{
+  "football": [
+    "Lions", "Tigers", "Eagles", "Bears", "Wolves",
+    "Sharks", "Panthers", "Hawks", "Falcons", "Ravens",
+    "Bulls", "Rhinos", "Stallions", "Cobras", "Vipers",
+    "Jaguars", "Pythons", "Dragons", "Griffins", "Knights",
+    "Titans", "Rangers", "Warriors", "Royals"
+  ],
+  "basketball": [
+    "Chicago", "Boston", "Miami", "Dallas", "Denver",
+    "Phoenix", "Brooklyn", "Toronto", "Milwaukee", "Atlanta",
+    "Los Angeles", "San Francisco", "Seattle", "Houston", "Orlando",
+    "Cleveland", "Detroit", "Portland", "Sacramento", "San Antonio",
+    "New York", "Philadelphia", "Charlotte", "Memphis", "Minnesota",
+    "New Orleans", "Indiana", "Oklahoma City", "Utah", "Washington"
+  ]
+}

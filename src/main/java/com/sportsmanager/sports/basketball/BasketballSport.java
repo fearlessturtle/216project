@@ -1,16 +1,12 @@
 package com.sportsmanager.sports.basketball;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
+import com.sportsmanager.core.League;
 import com.sportsmanager.core.Match;
+import com.sportsmanager.core.ProceduralNameSource;
 import com.sportsmanager.core.Sport;
 import com.sportsmanager.core.Team;
 import com.sportsmanager.core.TeamStanding;
 
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -18,7 +14,20 @@ import java.util.Random;
 
 public class BasketballSport implements Sport {
 
-    private BasketballLeague league;
+    private static final List<String> DEFAULT_TEAM_NAMES = List.of(
+            "Chicago", "Boston", "Miami", "Dallas", "Denver",
+            "Phoenix", "Brooklyn", "Toronto", "Milwaukee", "Atlanta",
+            "Los Angeles", "San Francisco", "Seattle", "Houston", "Orlando",
+            "Cleveland", "Detroit", "Portland", "Sacramento", "San Antonio",
+            "New York", "Philadelphia", "Charlotte", "Memphis", "Minnesota",
+            "New Orleans", "Indiana", "Oklahoma City", "Utah", "Washington"
+    );
+
+    private League league;
+
+    public BasketballSport() {
+        this.league = new BasketballLeague();
+    }
 
     @Override
     public String getSportName() {
@@ -37,57 +46,46 @@ public class BasketballSport implements Sport {
 
     @Override
     public void generateLeague() {
-
         league = new BasketballLeague();
 
-        List<String> names = loadNames();
-        Collections.shuffle(names);
+        List<String> teamNames = ProceduralNameSource.loadTeamNames("basketball", DEFAULT_TEAM_NAMES);
+        Collections.shuffle(teamNames);
+        ProceduralNameSource.NameBank nameBank = ProceduralNameSource.loadNameBank();
         Random random = new Random();
+        String[] specialities = {"Offense", "Defense", "Fitness"};
 
         for (int i = 0; i < 10; i++) {
-
-            String teamName;
-
-            if (i < names.size()) {
-                teamName = names.get(i);
-            } else {
-                teamName = "Basketball Team " + (i + 1);
-            }
-
+            String teamName = i < teamNames.size() ? teamNames.get(i) : "Basketball Team " + (i + 1);
             BasketballTeam team = new BasketballTeam(teamName);
 
             for (String position : getPositions()) {
-
                 for (int j = 0; j < 3; j++) {
-
-                    BasketballPlayer player = new BasketballPlayer(
-                            position + " Player " + (j + 1),
+                    ProceduralNameSource.PersonName person = ProceduralNameSource.randomPerson(nameBank, random);
+                    team.addPlayer(new BasketballPlayer(
+                            person.fullName,
                             18 + random.nextInt(15),
                             position,
-                            "Male",
+                            person.gender,
                             60 + random.nextInt(41),
                             60 + random.nextInt(41),
                             60 + random.nextInt(41),
                             60 + random.nextInt(41),
                             60 + random.nextInt(41),
                             60 + random.nextInt(41)
-                    );
-
-                    team.addPlayer(player);
+                    ));
                 }
             }
 
-            team.addCoach(
-                    new BasketballCoach(
-                            "Coach " + (i + 1),
-                            40 + random.nextInt(20),
-                            "Offense",
-                            5 + random.nextInt(20)
-                    )
-            );
+            ProceduralNameSource.PersonName coachName = ProceduralNameSource.randomPerson(nameBank, random);
+            String speciality = specialities[random.nextInt(specialities.length)];
+            team.addCoach(new BasketballCoach(
+                    coachName.fullName,
+                    40 + random.nextInt(20),
+                    speciality,
+                    5 + random.nextInt(20)
+            ));
 
-
-
+            team.setTactic(BasketballTactic.motionOffense());
             league.addTeam(team);
         }
 
@@ -96,8 +94,9 @@ public class BasketballSport implements Sport {
 
     @Override
     public void simulateWeek() {
-
-        if (league == null || isSeasonOver()) return;
+        if (league == null || isSeasonOver()) {
+            return;
+        }
 
         int simulated = 0;
         for (Match match : league.getNextMatches()) {
@@ -115,31 +114,36 @@ public class BasketballSport implements Sport {
 
     @Override
     public void playMatch(Match match) {
-
-        if (match == null) return;
+        if (match == null) {
+            return;
+        }
 
         match.play();
-        if (league != null) {
-            league.updateStandings(match);
-        }
+        league.updateStandings(match);
     }
 
     @Override
     public List<Team> getTeams() {
-        if (league == null) return List.of();
+        if (league == null) {
+            return List.of();
+        }
         return league.getTeams();
     }
 
     @Override
     public List<TeamStanding> getLeagueTable() {
-        if (league == null) return List.of();
+        if (league == null) {
+            return List.of();
+        }
         return league.getStandings();
     }
 
-    public BasketballLeague getLeague() {
+    @Override
+    public League getLeague() {
         return league;
     }
 
+    @Override
     public int getCurrentWeek() {
         return league != null ? league.getCurrentWeek() : 0;
     }
@@ -154,26 +158,5 @@ public class BasketballSport implements Sport {
         if (league != null) {
             league.setCurrentWeek(week);
         }
-    }
-
-    private List<String> loadNames() {
-
-        try {
-            InputStream is = getClass().getClassLoader().getResourceAsStream("names.json");
-            if (is != null) {
-                Gson gson = new Gson();
-                Type listType = new TypeToken<List<String>>() {}.getType();
-                List<String> names = gson.fromJson(new InputStreamReader(is), listType);
-                if (names != null && names.size() >= 10) {
-                    return names;
-                }
-            }
-        } catch (Exception e) {
-        }
-
-        return new ArrayList<>(Arrays.asList(
-                "Chicago", "Boston", "Miami", "Dallas", "Denver",
-                "Phoenix", "Brooklyn", "Toronto", "Milwaukee", "Atlanta"
-        ));
     }
 }

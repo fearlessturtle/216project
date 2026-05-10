@@ -1,0 +1,1112 @@
+.main-root {
+    -fx-background-color: linear-gradient(to bottom right, #040d16, #081b2e 50%, #0b2237 100%);
+    -fx-font-family: "Trebuchet MS", "Gill Sans", "Segoe UI", sans-serif;
+}
+
+.league-root,
+.team-root,
+.training-root,
+.postmatch-root {
+    -fx-background-color: linear-gradient(to bottom right, #eef2f8, #fbf7ef);
+    -fx-font-family: "Trebuchet MS", "Gill Sans", "Segoe UI", sans-serif;
+}
+
+.postmatch-root {
+    -fx-background-color: linear-gradient(to bottom right, #040d16, #0c2134 50%, #153f49 100%);
+}
+
+.match-root {
+    -fx-background-color: linear-gradient(to bottom right, #040910, #091825 42%, #113241 100%);
+    -fx-font-family: "Trebuchet MS", "Gill Sans", "Segoe UI", sans-serif;
+}
+
+.prematch-root {
+    -fx-background-color: linear-gradient(to bottom right, #040a11, #0b1d2e 48%, #113845 100%);
+    -fx-font-family: "Trebuchet MS", "Gill Sans", "Segoe UI", sans-serif;
+}
+
+.menu-stage {
+    -fx-padding: 28 34 28 34;
+}
+
+.hero-copy-block {
+    -fx-pref-width: 380;
+    -fx-max-width: 380;
+}
+
+.eyebrow {
+    -fx-font-family: "Georgia", "Palatino Linotype", "Baskerville", serif;
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #ffd36f;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.34), 4, 0.16, 0, 1);
+}
+
+.hero-title {
+    -fx-font-family: "Georgia", "Palatino Linotype", "Baskerville", serif;
+    -fx-font-size: 36px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #f6efe3;
+}
+
+.hero-title-small {
+    -fx-font-family: "Georgia", "Palatino Linotype", "Baskerville", serif;
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #17313e;
+}
+
+.hero-title-small-light {
+    -fx-font-family: "Georgia", "Palatino Linotype", "Baskerville", serif;
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #f6efe3;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.30), 4, 0.16, 0, 1);
+}
+
+.hero-copy {
+    -fx-font-size: 14px;
+    -fx-text-fill: rgba(246, 239, 227, 0.88);
+    -fx-wrap-text: true;
+}
+
+.hero-note {
+    -fx-font-size: 12px;
+    -fx-text-fill: rgba(246, 239, 227, 0.70);
+    -fx-wrap-text: true;
+}
+
+.panel-title {
+    -fx-font-family: "Georgia", "Palatino Linotype", "Baskerville", serif;
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #17313e;
+}
+
+.panel-title-light {
+    -fx-font-family: "Georgia", "Palatino Linotype", "Baskerville", serif;
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #f6efe3;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.30), 4, 0.16, 0, 1);
+}
+
+.panel-subtitle {
+    -fx-font-size: 12px;
+    -fx-text-fill: #586574;
+    -fx-wrap-text: true;
+}
+
+.status-line {
+    -fx-font-size: 12px;
+    -fx-text-fill: #5b6875;
+    -fx-wrap-text: true;
+}
+
+.status-line-light {
+    -fx-font-size: 12px;
+    -fx-text-fill: rgba(246, 239, 227, 0.90);
+    -fx-wrap-text: true;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.24), 3, 0.14, 0, 1);
+}
+
+.feature-chip,
+.chip,
+.menu-footnote {
+    -fx-background-radius: 999;
+    -fx-border-radius: 999;
+    -fx-background-insets: 0;
+    -fx-padding: 7 14 7 14;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-alignment: center;
+}
+
+.feature-chip {
+    -fx-text-fill: #fff8ec;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.20), 6, 0.14, 0, 2);
+}
+
+.chip-emerald {
+    -fx-background-color: rgba(208, 242, 231, 0.92);
+    -fx-border-color: rgba(31, 111, 87, 0.52);
+    -fx-text-fill: #1b5a5f;
+}
+
+.chip-gold {
+    -fx-background-color: rgba(252, 229, 186, 0.94);
+    -fx-border-color: rgba(201, 149, 87, 0.56);
+    -fx-text-fill: #8d5f24;
+}
+
+.chip-slate {
+    -fx-background-color: rgba(227, 234, 243, 0.92);
+    -fx-border-color: rgba(22, 33, 62, 0.48);
+    -fx-text-fill: #16213e;
+}
+
+.menu-chip-football,
+.menu-chip-basketball,
+.menu-chip-save,
+.prematch-chip-broadcast,
+.prematch-chip-mood,
+.prematch-chip-home,
+.prematch-chip-away,
+.prematch-chip-meta,
+.prematch-chip-club {
+    -fx-background-radius: 999;
+    -fx-border-radius: 999;
+    -fx-background-insets: 0;
+    -fx-border-insets: 0;
+    -fx-padding: 8 16 8 16;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-opacity: 1;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.28), 10, 0.16, 0, 3);
+}
+
+.menu-chip-football {
+    -fx-background-color: linear-gradient(to bottom right, #2fb7b0, #1f6feb);
+    -fx-border-color: rgba(255, 255, 255, 0.30);
+    -fx-text-fill: #ffffff;
+}
+
+.menu-chip-basketball {
+    -fx-background-color: linear-gradient(to bottom right, #ff9b63, #f04c3e);
+    -fx-border-color: rgba(255, 255, 255, 0.26);
+    -fx-text-fill: #ffffff;
+}
+
+.menu-chip-save {
+    -fx-background-color: linear-gradient(to bottom right, #6b7280, #273247);
+    -fx-border-color: rgba(255, 255, 255, 0.22);
+    -fx-text-fill: #ffffff;
+}
+
+.prematch-chip-broadcast {
+    -fx-background-color: linear-gradient(to bottom right, #ffd36f, #c89557);
+    -fx-border-color: rgba(255, 244, 210, 0.90);
+    -fx-text-fill: #101a24;
+}
+
+.prematch-chip-mood {
+    -fx-background-color: linear-gradient(to bottom right, #2fb7b0, #1f6feb);
+    -fx-border-color: rgba(255, 255, 255, 0.30);
+    -fx-text-fill: #ffffff;
+}
+
+.prematch-chip-home {
+    -fx-background-color: linear-gradient(to bottom right, #2fb7b0, #176b4f);
+    -fx-border-color: rgba(255, 255, 255, 0.28);
+    -fx-text-fill: #ffffff;
+}
+
+.prematch-chip-away {
+    -fx-background-color: linear-gradient(to bottom right, #ffb357, #f04c3e);
+    -fx-border-color: rgba(255, 255, 255, 0.24);
+    -fx-text-fill: #ffffff;
+}
+
+.prematch-chip-meta {
+    -fx-background-color: linear-gradient(to bottom right, #344155, #1f2937);
+    -fx-border-color: rgba(255, 255, 255, 0.22);
+    -fx-text-fill: #ffffff;
+}
+
+.prematch-chip-club {
+    -fx-background-color: linear-gradient(to bottom right, #53607a, #24324a);
+    -fx-border-color: rgba(255, 255, 255, 0.22);
+    -fx-text-fill: #ffffff;
+}
+
+.menu-footnote {
+    -fx-background-color: rgba(201, 149, 87, 0.10);
+    -fx-border-color: rgba(201, 149, 87, 0.30);
+    -fx-text-fill: #6b4a1f;
+}
+
+.chip-dark-emerald,
+.chip-dark-slate,
+.chip-dark-gold {
+    -fx-background-radius: 999;
+    -fx-border-radius: 999;
+    -fx-background-insets: 0;
+    -fx-padding: 7 14 7 14;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #ffffff;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.20), 10, 0.14, 0, 3);
+}
+
+.chip-dark-emerald {
+    -fx-background-color: linear-gradient(to bottom right, rgba(53, 146, 128, 0.94), rgba(31, 111, 87, 0.84));
+    -fx-border-color: rgba(166, 232, 194, 0.84);
+}
+
+.chip-dark-slate {
+    -fx-background-color: rgba(22, 33, 62, 0.74);
+    -fx-border-color: rgba(161, 180, 219, 0.76);
+}
+
+.chip-dark-gold {
+    -fx-background-color: linear-gradient(to bottom right, rgba(255, 214, 99, 0.96), rgba(201, 149, 87, 0.86));
+    -fx-border-color: rgba(255, 236, 188, 0.88);
+    -fx-text-fill: #101a24;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.22), 10, 0.14, 0, 3);
+}
+
+.fixture-banner {
+    -fx-background-color: linear-gradient(to right, rgba(11, 22, 35, 0.90), rgba(24, 52, 72, 0.72));
+    -fx-background-radius: 20;
+    -fx-border-radius: 20;
+    -fx-border-color: rgba(201, 149, 87, 0.40);
+    -fx-border-width: 1;
+    -fx-padding: 14 16 14 16;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.24), 18, 0.16, 0, 7);
+}
+
+.fixture-banner-title {
+    -fx-font-family: "Georgia", "Palatino Linotype", "Baskerville", serif;
+    -fx-font-size: 19px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #fff4d3;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.32), 4, 0.16, 0, 1);
+}
+
+.fixture-banner-detail {
+    -fx-font-size: 12px;
+    -fx-text-fill: rgba(246, 239, 227, 0.84);
+}
+
+.menu-card,
+.panel-card,
+.table-shell,
+.score-card {
+    -fx-background-radius: 26;
+    -fx-border-radius: 26;
+    -fx-effect: dropshadow(gaussian, rgba(12, 24, 31, 0.18), 24, 0.18, 0, 10);
+}
+
+.menu-card {
+    -fx-background-color: rgba(246, 239, 227, 0.96);
+    -fx-padding: 26 30 24 30;
+    -fx-border-color: rgba(201, 149, 87, 0.32);
+    -fx-border-width: 1;
+}
+
+.panel-card,
+.table-shell {
+    -fx-background-color: rgba(255, 255, 255, 0.90);
+    -fx-padding: 20;
+    -fx-border-color: rgba(22, 33, 62, 0.08);
+    -fx-border-width: 1;
+}
+
+.table-shell {
+    -fx-padding: 18;
+}
+
+.tab-strip {
+    -fx-background-color: rgba(22, 33, 62, 0.05);
+    -fx-background-radius: 16 16 0 0;
+    -fx-padding: 5 5 0 5;
+}
+
+.league-header,
+.team-header,
+.training-header,
+.prematch-header,
+.match-header,
+.postmatch-header {
+    -fx-background-color: linear-gradient(to right, #16213e, #1f3451);
+    -fx-padding: 18 24 16 24;
+}
+
+.fixture-card {
+    -fx-background-color: linear-gradient(to bottom right, rgba(10, 19, 31, 0.97), rgba(15, 42, 54, 0.96));
+    -fx-padding: 30 36 30 36;
+    -fx-border-color: rgba(201, 149, 87, 0.42);
+    -fx-border-width: 1;
+    -fx-background-radius: 30;
+    -fx-border-radius: 30;
+    -fx-effect: dropshadow(gaussian, rgba(12, 24, 31, 0.28), 28, 0.22, 0, 12);
+}
+
+.preview-card {
+    -fx-min-height: 450;
+    -fx-max-width: 720;
+}
+
+.preview-title {
+    -fx-font-family: "Georgia", "Palatino Linotype", "Baskerville", serif;
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #f8efe1;
+}
+
+.preview-team-name {
+    -fx-font-family: "Georgia", "Palatino Linotype", "Baskerville", serif;
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #f8efe1;
+}
+
+.preview-vs {
+    -fx-font-family: "Georgia", "Palatino Linotype", "Baskerville", serif;
+    -fx-font-size: 34px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #ffd36f;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.28), 4, 0.16, 0, 1);
+}
+
+.preview-detail {
+    -fx-font-size: 13px;
+    -fx-text-fill: rgba(246, 239, 227, 0.76);
+}
+
+.preview-narrative,
+.preview-tagline {
+    -fx-font-size: 13px;
+    -fx-text-fill: rgba(246, 239, 227, 0.86);
+    -fx-text-alignment: center;
+}
+
+.preview-tagline {
+    -fx-opacity: 0.92;
+}
+
+.action-rail {
+    -fx-background-color: rgba(255, 255, 255, 0.92);
+    -fx-padding: 12 18 12 18;
+    -fx-border-color: rgba(22, 33, 62, 0.08);
+    -fx-border-width: 1 0 0 0;
+}
+
+.dark-rail {
+    -fx-background-color: rgba(9, 18, 29, 0.95);
+    -fx-border-color: rgba(255, 255, 255, 0.08);
+    -fx-padding: 20 52 20 52;
+}
+
+.postmatch-footer {
+    -fx-padding: 20 28 20 28;
+}
+
+.button {
+    -fx-background-radius: 14;
+    -fx-border-radius: 14;
+    -fx-cursor: hand;
+    -fx-padding: 10 16 10 16;
+    -fx-font-weight: bold;
+    -fx-font-size: 12px;
+}
+
+.primary-action {
+    -fx-background-color: linear-gradient(to bottom right, #ff7a59, #f04c3e);
+    -fx-text-fill: white;
+    -fx-effect: dropshadow(gaussian, rgba(240, 76, 62, 0.32), 14, 0.18, 0, 5);
+}
+
+.secondary-action {
+    -fx-background-color: linear-gradient(to bottom right, #1f6feb, #164a9d);
+    -fx-text-fill: white;
+    -fx-effect: dropshadow(gaussian, rgba(31, 111, 235, 0.24), 12, 0.18, 0, 5);
+}
+
+.ghost-action {
+    -fx-background-color: transparent;
+    -fx-border-color: rgba(22, 33, 62, 0.24);
+    -fx-text-fill: #17313e;
+}
+
+.tab-button {
+    -fx-background-color: rgba(22, 33, 62, 0.08);
+    -fx-text-fill: #17313e;
+    -fx-background-radius: 16 16 0 0;
+    -fx-border-radius: 16 16 0 0;
+    -fx-padding: 10 16 10 16;
+}
+
+.tab-button:hover {
+    -fx-background-color: rgba(22, 33, 62, 0.12);
+}
+
+.tab-button-active {
+    -fx-background-color: #1f3451;
+    -fx-text-fill: white;
+}
+
+.tab-button-inactive {
+    -fx-background-color: rgba(22, 33, 62, 0.08);
+    -fx-text-fill: #17313e;
+}
+
+.combo-box {
+    -fx-background-color: white;
+    -fx-border-color: rgba(22, 33, 62, 0.20);
+    -fx-border-radius: 14;
+    -fx-background-radius: 14;
+}
+
+.combo-box .list-cell {
+    -fx-padding: 6 10 6 10;
+}
+
+.sport-combo {
+    -fx-font-size: 13px;
+}
+
+.list-view {
+    -fx-background-color: rgba(255, 255, 255, 0.92);
+    -fx-background-insets: 0;
+    -fx-border-color: rgba(22, 33, 62, 0.10);
+    -fx-border-radius: 16;
+    -fx-background-radius: 16;
+}
+
+.list-view .list-cell {
+    -fx-background-color: transparent;
+    -fx-text-fill: #1f2933;
+    -fx-padding: 0.70em 0.85em 0.70em 0.85em;
+}
+
+.list-view .list-cell:filled:selected {
+    -fx-background-color: rgba(31, 111, 235, 0.14);
+}
+
+.check-box {
+    -fx-text-fill: #1f2933;
+    -fx-font-size: 12px;
+}
+
+.check-box .box {
+    -fx-background-color: white;
+    -fx-border-color: rgba(22, 33, 62, 0.28);
+    -fx-border-radius: 4;
+    -fx-background-radius: 4;
+}
+
+.check-box:selected .mark {
+    -fx-background-color: #1f6feb;
+}
+
+.table-view {
+    -fx-background-color: transparent;
+    -fx-background-insets: 0;
+    -fx-border-color: rgba(22, 33, 62, 0.12);
+    -fx-border-radius: 18;
+    -fx-background-radius: 18;
+}
+
+.table-view .column-header-background {
+    -fx-background-color: linear-gradient(to right, #16213e, #1f3451);
+    -fx-background-radius: 18 18 0 0;
+}
+
+.table-view .column-header,
+.table-view .filler {
+    -fx-background-color: transparent;
+}
+
+.table-view .column-header .label {
+    -fx-text-fill: #f6efe3;
+    -fx-font-weight: bold;
+    -fx-font-size: 12px;
+}
+
+.table-view .table-cell {
+    -fx-text-fill: #1f2933;
+    -fx-alignment: center-left;
+    -fx-padding: 0.55em 0.8em 0.55em 0.8em;
+}
+
+.table-view .table-row-cell {
+    -fx-background-color: rgba(255, 255, 255, 0.88);
+    -fx-border-color: transparent transparent rgba(22, 33, 62, 0.05) transparent;
+}
+
+.table-view .table-row-cell:odd {
+    -fx-background-color: rgba(242, 245, 250, 0.92);
+}
+
+.table-view .table-row-cell:selected {
+    -fx-background-color: rgba(31, 111, 235, 0.18);
+}
+
+.table-view .table-row-cell:hover {
+    -fx-background-color: rgba(31, 111, 235, 0.10);
+}
+
+.table-view .table-row-cell.injured-row {
+    -fx-background-color: rgba(239, 130, 117, 0.28);
+}
+
+.table-view .table-row-cell.tired-row {
+    -fx-background-color: rgba(247, 199, 79, 0.24);
+}
+
+.table-view .placeholder .label {
+    -fx-text-fill: #768292;
+}
+
+.roster-table {
+    -fx-pref-height: 370;
+}
+
+.standings-table {
+    -fx-pref-height: 540;
+}
+
+.match-log {
+    -fx-background-color: #09131f;
+    -fx-control-inner-background: #09131f;
+    -fx-text-fill: #f7f1e6;
+    -fx-highlight-fill: #c89557;
+    -fx-highlight-text-fill: #09131f;
+    -fx-border-color: rgba(255, 255, 255, 0.12);
+    -fx-border-radius: 18;
+    -fx-background-radius: 18;
+    -fx-font-family: "Trebuchet MS", "Gill Sans", "Segoe UI", sans-serif;
+    -fx-font-size: 12px;
+}
+
+.match-log .content {
+    -fx-background-color: #09131f;
+    -fx-background-radius: 18;
+}
+
+.score-card {
+    -fx-background-color: linear-gradient(to bottom right, rgba(11, 22, 35, 0.98), rgba(24, 68, 78, 0.96));
+    -fx-padding: 32 36 32 36;
+    -fx-border-color: rgba(201, 149, 87, 0.24);
+}
+
+.match-panel-card {
+    -fx-background-color: linear-gradient(to bottom right, rgba(5, 12, 20, 0.98), rgba(11, 29, 44, 0.96) 48%, rgba(14, 52, 63, 0.94));
+    -fx-border-color: rgba(201, 149, 87, 0.30);
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.34), 28, 0.22, 0, 12);
+    -fx-padding: 40 56 40 56;
+}
+
+.match-pulse {
+    -fx-font-size: 13px;
+    -fx-text-fill: rgba(246, 239, 227, 0.92);
+    -fx-text-alignment: left;
+}
+
+.score-pulse-caption {
+    -fx-font-size: 10px;
+    -fx-font-weight: bold;
+    -fx-text-fill: rgba(246, 239, 227, 0.84);
+}
+
+.live-score-number {
+    -fx-font-family: "Georgia", "Palatino Linotype", "Baskerville", serif;
+    -fx-font-size: 28px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #f8efe1;
+}
+
+.live-score-divider {
+    -fx-font-family: "Georgia", "Palatino Linotype", "Baskerville", serif;
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: rgba(248, 239, 225, 0.55);
+}
+
+.match-feed-shell {
+    -fx-background-color: rgba(9, 19, 31, 0.96);
+    -fx-background-insets: 0;
+    -fx-background-radius: 18;
+    -fx-border-color: rgba(255, 255, 255, 0.12);
+    -fx-border-radius: 18;
+}
+
+.match-feed-shell .viewport {
+    -fx-background-color: transparent;
+}
+
+.match-feed-shell .content {
+    -fx-background-color: transparent;
+}
+
+.match-tab-pane {
+    -fx-background-color: transparent;
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+}
+
+.match-tab-pane .tab-header-area {
+    -fx-padding: 0;
+}
+
+.match-tab-pane .tab-header-background {
+    -fx-background-color: transparent;
+}
+
+.match-tab-pane .tab-content-area {
+    -fx-background-color: transparent;
+    -fx-padding: 16 0 0 0;
+}
+
+.match-tab-pane .tab {
+    -fx-background-color: rgba(255, 255, 255, 0.06);
+    -fx-background-insets: 0;
+    -fx-background-radius: 14 14 0 0;
+    -fx-border-color: rgba(255, 255, 255, 0.10);
+    -fx-border-radius: 14 14 0 0;
+    -fx-padding: 10 18 10 18;
+}
+
+.match-tab-pane .tab:hover {
+    -fx-background-color: rgba(255, 255, 255, 0.10);
+}
+
+.match-tab-pane .tab:selected {
+    -fx-background-color: linear-gradient(to bottom, #ff9b63, #f04c3e);
+    -fx-border-color: rgba(255, 255, 255, 0.20);
+    -fx-effect: dropshadow(gaussian, rgba(240, 76, 62, 0.28), 12, 0.16, 0, 4);
+}
+
+.match-tab-pane .tab .tab-label {
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-text-fill: rgba(246, 239, 227, 0.76);
+}
+
+.match-tab-pane .tab:selected .tab-label {
+    -fx-text-fill: #fffaf2;
+}
+
+.match-tab-pane .focus-indicator {
+    -fx-border-color: transparent;
+    -fx-background-color: transparent;
+}
+
+.match-tab-page {
+    -fx-background-color: transparent;
+}
+
+.match-feed {
+    -fx-background-color: transparent;
+    -fx-padding: 22 34 22 34;
+}
+
+.match-digest-strip {
+    -fx-background-color: transparent;
+    -fx-padding: 16 18 16 18;
+    -fx-alignment: center-left;
+}
+
+.match-digest-shell {
+    -fx-background-color: rgba(9, 19, 31, 0.96);
+    -fx-background-insets: 0;
+    -fx-background-radius: 18;
+    -fx-border-color: rgba(255, 255, 255, 0.12);
+    -fx-border-radius: 18;
+}
+
+.match-digest-shell .viewport {
+    -fx-background-color: transparent;
+}
+
+.match-digest-shell .content {
+    -fx-background-color: transparent;
+}
+
+.match-highlight-strip {
+    -fx-padding: 18 34 18 34;
+    -fx-alignment: center-left;
+}
+
+.match-mode-caption {
+    -fx-font-size: 12px;
+    -fx-text-fill: rgba(246, 239, 227, 0.76);
+}
+
+.match-mode-button {
+    -fx-background-radius: 999;
+    -fx-border-radius: 999;
+    -fx-padding: 8 14 8 14;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+}
+
+.match-mode-button-active {
+    -fx-background-color: linear-gradient(to bottom right, #ff7a59, #f04c3e);
+    -fx-text-fill: white;
+    -fx-border-color: rgba(255, 255, 255, 0.18);
+    -fx-effect: dropshadow(gaussian, rgba(240, 76, 62, 0.28), 12, 0.16, 0, 4);
+}
+
+.match-mode-button-inactive {
+    -fx-background-color: rgba(255, 255, 255, 0.06);
+    -fx-border-color: rgba(255, 255, 255, 0.12);
+    -fx-text-fill: rgba(246, 239, 227, 0.76);
+}
+
+.highlight-card {
+    -fx-background-radius: 18;
+    -fx-border-radius: 18;
+    -fx-border-width: 1;
+    -fx-padding: 14 16 14 16;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.24), 14, 0.14, 0, 6);
+}
+
+.timeline-group {
+    -fx-background-radius: 20;
+    -fx-border-radius: 20;
+    -fx-border-width: 1 1 1 4;
+    -fx-padding: 16 18 16 18;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.24), 16, 0.14, 0, 6);
+}
+
+.timeline-group-period {
+    -fx-background-color: linear-gradient(to right, rgba(7, 16, 27, 0.94), rgba(14, 29, 45, 0.90));
+    -fx-border-color: rgba(161, 180, 219, 0.32) rgba(161, 180, 219, 0.20) rgba(161, 180, 219, 0.20) rgba(161, 180, 219, 0.82);
+}
+
+.timeline-group-goal {
+    -fx-background-color: linear-gradient(to right, rgba(8, 29, 35, 0.94), rgba(18, 42, 59, 0.92));
+    -fx-border-color: rgba(201, 149, 87, 0.42) rgba(201, 149, 87, 0.22) rgba(201, 149, 87, 0.22) rgba(201, 149, 87, 0.90);
+}
+
+.timeline-group-card {
+    -fx-background-color: linear-gradient(to right, rgba(60, 23, 28, 0.94), rgba(29, 14, 19, 0.92));
+    -fx-border-color: rgba(239, 130, 117, 0.42) rgba(239, 130, 117, 0.22) rgba(239, 130, 117, 0.22) rgba(239, 130, 117, 0.90);
+}
+
+.timeline-group-substitution {
+    -fx-background-color: linear-gradient(to right, rgba(16, 33, 54, 0.94), rgba(11, 22, 35, 0.92));
+    -fx-border-color: rgba(124, 170, 238, 0.40) rgba(124, 170, 238, 0.20) rgba(124, 170, 238, 0.20) rgba(124, 170, 238, 0.86);
+}
+
+.timeline-group-injury {
+    -fx-background-color: linear-gradient(to right, rgba(66, 28, 21, 0.94), rgba(29, 14, 16, 0.92));
+    -fx-border-color: rgba(244, 164, 96, 0.42) rgba(244, 164, 96, 0.22) rgba(244, 164, 96, 0.22) rgba(244, 164, 96, 0.88);
+}
+
+.timeline-group-final {
+    -fx-background-color: linear-gradient(to right, rgba(10, 54, 42, 0.94), rgba(8, 23, 20, 0.92));
+    -fx-border-color: rgba(166, 232, 194, 0.44) rgba(166, 232, 194, 0.22) rgba(166, 232, 194, 0.22) rgba(166, 232, 194, 0.90);
+}
+
+.timeline-group-header {
+    -fx-alignment: center-left;
+}
+
+.timeline-minute-badge {
+    -fx-background-color: rgba(255, 255, 255, 0.12);
+    -fx-background-radius: 999;
+    -fx-border-color: rgba(255, 255, 255, 0.16);
+    -fx-border-radius: 999;
+    -fx-padding: 5 9 5 9;
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #f3ddb8;
+}
+
+.timeline-burst-label {
+    -fx-font-family: "Georgia", "Palatino Linotype", "Baskerville", serif;
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #f8efe1;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.26), 4, 0.14, 0, 1);
+}
+
+.timeline-count-chip {
+    -fx-background-color: rgba(201, 149, 87, 0.16);
+    -fx-background-radius: 999;
+    -fx-border-color: rgba(201, 149, 87, 0.40);
+    -fx-border-radius: 999;
+    -fx-padding: 6 10 6 10;
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #f8efe1;
+}
+
+.timeline-group-caption {
+    -fx-font-size: 12px;
+    -fx-text-fill: rgba(248, 239, 225, 0.74);
+    -fx-padding: 0 0 2 2;
+}
+
+.timeline-rows {
+    -fx-padding: 2 0 0 0;
+}
+
+.timeline-row {
+    -fx-padding: 10 12 10 12;
+}
+
+.timeline-event-type {
+    -fx-background-radius: 999;
+    -fx-border-radius: 999;
+    -fx-border-width: 1;
+    -fx-padding: 4 9 4 9;
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #f8efe1;
+}
+
+.timeline-event-type-goal {
+    -fx-background-color: rgba(201, 149, 87, 0.24);
+    -fx-border-color: rgba(201, 149, 87, 0.46);
+    -fx-text-fill: #fff6e8;
+}
+
+.timeline-event-type-card {
+    -fx-background-color: rgba(239, 130, 117, 0.22);
+    -fx-border-color: rgba(239, 130, 117, 0.42);
+}
+
+.timeline-event-type-substitution {
+    -fx-background-color: rgba(124, 170, 238, 0.22);
+    -fx-border-color: rgba(124, 170, 238, 0.40);
+}
+
+.timeline-event-type-injury {
+    -fx-background-color: rgba(244, 164, 96, 0.22);
+    -fx-border-color: rgba(244, 164, 96, 0.40);
+}
+
+.timeline-event-type-period {
+    -fx-background-color: rgba(161, 180, 219, 0.18);
+    -fx-border-color: rgba(161, 180, 219, 0.34);
+}
+
+.timeline-event-type-final {
+    -fx-background-color: rgba(166, 232, 194, 0.22);
+    -fx-border-color: rgba(166, 232, 194, 0.42);
+    -fx-text-fill: #f3fff6;
+}
+
+.timeline-row-summary {
+    -fx-font-size: 13px;
+    -fx-text-fill: rgba(248, 239, 225, 0.90);
+}
+
+.timeline-row-detail {
+    -fx-font-size: 12px;
+    -fx-text-fill: rgba(248, 239, 225, 0.68);
+}
+
+.event-card {
+    -fx-background-radius: 16;
+    -fx-border-radius: 16;
+    -fx-padding: 12 14 12 14;
+    -fx-border-width: 1;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.22), 10, 0.12, 0, 4);
+}
+
+.event-card-goal {
+    -fx-background-color: linear-gradient(to right, rgba(29, 74, 83, 0.96), rgba(22, 33, 62, 0.96));
+    -fx-border-color: rgba(201, 149, 87, 0.65);
+}
+
+.event-card-card {
+    -fx-background-color: linear-gradient(to right, rgba(92, 33, 37, 0.96), rgba(38, 18, 24, 0.96));
+    -fx-border-color: rgba(239, 130, 117, 0.62);
+}
+
+.event-card-substitution {
+    -fx-background-color: linear-gradient(to right, rgba(27, 52, 81, 0.96), rgba(13, 27, 43, 0.96));
+    -fx-border-color: rgba(124, 170, 238, 0.56);
+}
+
+.event-card-injury {
+    -fx-background-color: linear-gradient(to right, rgba(96, 41, 29, 0.96), rgba(41, 17, 18, 0.96));
+    -fx-border-color: rgba(244, 164, 96, 0.62);
+}
+
+.event-card-period {
+    -fx-background-color: linear-gradient(to right, rgba(32, 46, 67, 0.96), rgba(17, 23, 35, 0.96));
+    -fx-border-color: rgba(161, 180, 219, 0.46);
+}
+
+.event-card-final {
+    -fx-background-color: linear-gradient(to right, rgba(18, 90, 73, 0.96), rgba(12, 30, 28, 0.96));
+    -fx-border-color: rgba(166, 232, 194, 0.65);
+}
+
+.momentum-chip {
+    -fx-background-color: rgba(201, 149, 87, 0.16);
+    -fx-background-radius: 999;
+    -fx-border-color: rgba(201, 149, 87, 0.42);
+    -fx-border-radius: 999;
+    -fx-padding: 6 12 6 12;
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #f8efe1;
+}
+
+.event-minute {
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #f3ddb8;
+    -fx-background-color: rgba(255, 255, 255, 0.12);
+    -fx-background-radius: 999;
+    -fx-padding: 4 8 4 8;
+}
+
+.event-title {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #f8efe1;
+}
+
+.event-summary {
+    -fx-font-size: 13px;
+    -fx-text-fill: rgba(248, 239, 225, 0.88);
+}
+
+.event-detail {
+    -fx-font-size: 12px;
+    -fx-text-fill: rgba(248, 239, 225, 0.68);
+}
+
+.result-card {
+    -fx-padding: 72 40 72 40;
+    -fx-spacing: 22;
+}
+
+.result-card-home {
+    -fx-background-color: linear-gradient(to bottom right, rgba(15, 65, 70, 0.98), rgba(28, 104, 111, 0.96));
+}
+
+.result-card-away {
+    -fx-background-color: linear-gradient(to bottom right, rgba(86, 37, 22, 0.98), rgba(148, 67, 33, 0.96));
+}
+
+.result-card-draw {
+    -fx-background-color: linear-gradient(to bottom right, rgba(32, 41, 60, 0.98), rgba(55, 74, 99, 0.96));
+}
+
+.result-banner {
+    -fx-font-family: "Georgia", "Palatino Linotype", "Baskerville", serif;
+    -fx-font-size: 26px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #ffd79f;
+}
+
+.result-narrative {
+    -fx-font-size: 13px;
+    -fx-text-fill: rgba(246, 239, 227, 0.92);
+    -fx-text-alignment: center;
+}
+
+.result-chip {
+    -fx-background-radius: 999;
+    -fx-border-radius: 999;
+    -fx-padding: 7 12 7 12;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #f7f1e7;
+}
+
+.result-chip-goal {
+    -fx-background-color: rgba(201, 149, 87, 0.20);
+    -fx-border-color: rgba(201, 149, 87, 0.46);
+}
+
+.result-chip-card {
+    -fx-background-color: rgba(239, 130, 117, 0.18);
+    -fx-border-color: rgba(239, 130, 117, 0.42);
+}
+
+.result-chip-injury {
+    -fx-background-color: rgba(244, 164, 96, 0.18);
+    -fx-border-color: rgba(244, 164, 96, 0.42);
+}
+
+.result-chip-sub {
+    -fx-background-color: rgba(124, 170, 238, 0.18);
+    -fx-border-color: rgba(124, 170, 238, 0.40);
+}
+
+.team-name {
+    -fx-font-family: "Georgia", "Palatino Linotype", "Baskerville", serif;
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #f3ddb8;
+}
+
+.fixture-team {
+    -fx-font-family: "Georgia", "Palatino Linotype", "Baskerville", serif;
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #17313e;
+}
+
+.score-number {
+    -fx-font-family: "Georgia", "Palatino Linotype", "Baskerville", serif;
+    -fx-font-size: 58px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #f8efe1;
+}
+
+.score-divider {
+    -fx-font-family: "Georgia", "Palatino Linotype", "Baskerville", serif;
+    -fx-font-size: 28px;
+    -fx-font-weight: bold;
+    -fx-text-fill: rgba(248, 239, 225, 0.55);
+}
+
+.fixture-vs {
+    -fx-font-family: "Georgia", "Palatino Linotype", "Baskerville", serif;
+    -fx-font-size: 34px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #c89557;
+}
+
+.fixture-detail {
+    -fx-font-size: 12px;
+    -fx-text-fill: #5b6875;
+}
+
+.pitch-lines {
+    -fx-background-color: linear-gradient(to bottom, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.01));
+    -fx-border-color: rgba(255, 255, 255, 0.03);
+    -fx-pref-width: 960;
+    -fx-pref-height: 560;
+    -fx-opacity: 0.35;
+}
+
+.orb {
+    -fx-background-radius: 999;
+    -fx-opacity: 0.34;
+}
+
+.orb-one {
+    -fx-background-color: radial-gradient(center 30% 30%, radius 70%, #ff7a59, transparent);
+    -fx-pref-width: 240;
+    -fx-pref-height: 240;
+    -fx-translate-x: -250;
+    -fx-translate-y: -120;
+}
+
+.orb-two {
+    -fx-background-color: radial-gradient(center 50% 50%, radius 65%, #ffd79f, transparent);
+    -fx-pref-width: 220;
+    -fx-pref-height: 220;
+    -fx-translate-x: 280;
+    -fx-translate-y: -100;
+    -fx-opacity: 0.20;
+}
+
+.orb-three {
+    -fx-background-color: radial-gradient(center 50% 50%, radius 70%, #2fb7b0, transparent);
+    -fx-pref-width: 300;
+    -fx-pref-height: 300;
+    -fx-translate-x: 220;
+    -fx-translate-y: 150;
+    -fx-opacity: 0.30;
+}
+
+.grid {
+    -fx-background-color: linear-gradient(to bottom, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0));
+    -fx-pref-width: 960;
+    -fx-pref-height: 560;
+    -fx-opacity: 0.18;
+}

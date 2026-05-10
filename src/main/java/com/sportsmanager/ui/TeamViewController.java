@@ -2,15 +2,18 @@ package com.sportsmanager.ui;
 
 import com.sportsmanager.core.Coach;
 import com.sportsmanager.core.Player;
+import com.sportsmanager.core.Sport;
 import com.sportsmanager.core.Team;
 
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -18,6 +21,7 @@ import java.util.ResourceBundle;
 
 public class TeamViewController implements Initializable {
 
+    private Sport sport;
     @FXML private Label  budgetLabel;
     @FXML private Label  statusLabel;
     @FXML private Button playersTabBtn;
@@ -39,6 +43,10 @@ public class TeamViewController implements Initializable {
 
     private Team currentTeam;
 
+    public void setSport(Sport sport) {
+        this.sport = sport;
+    }
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         setupPlayersTable();
@@ -57,19 +65,25 @@ public class TeamViewController implements Initializable {
             Player p = d.getValue();
             if (p.isInjured())
                 return new SimpleStringProperty("INJURED (" + p.getInjuryGamesLeft() + " games)");
-            return new SimpleStringProperty(p.isAvailable() ? "Available" : "Tired");
+            String availability = p.isAvailable() ? "Available" : "Tired";
+            return new SimpleStringProperty(availability + " (" + p.getStamina() + " stamina)");
         });
 
         playersTable.setRowFactory(tv -> new TableRow<Player>() {
             @Override
             protected void updateItem(Player p, boolean empty) {
                 super.updateItem(p, empty);
-                if (p == null || empty)       setStyle("");
-                else if (p.isInjured())       setStyle("-fx-background-color: #ffcccc;");
-                else if (!p.isAvailable())    setStyle("-fx-background-color: #fff3cc;");
-                else                          setStyle("");
+                getStyleClass().removeAll("injured-row", "tired-row");
+                if (p == null || empty) {
+                    setStyle("");
+                } else if (p.isInjured()) {
+                    getStyleClass().add("injured-row");
+                } else if (!p.isAvailable()) {
+                    getStyleClass().add("tired-row");
+                }
             }
         });
+        UiStyles.useConstrainedResizePolicy(playersTable);
     }
 
     private void setupCoachesTable() {
@@ -81,28 +95,59 @@ public class TeamViewController implements Initializable {
                 new SimpleIntegerProperty(d.getValue().getExperience()));
         colCoachBonus.setCellValueFactory(d ->
                 new SimpleIntegerProperty(d.getValue().getTrainingBonus()));
+        UiStyles.useConstrainedResizePolicy(coachesTable);
     }
 
     public void setTeam(Team team) {
         this.currentTeam = team;
         refreshPlayers();
         refreshCoaches();
-        if (statusLabel != null)
-            statusLabel.setText("Managing: " + team.getName());
+        if (statusLabel != null && team != null) {
+            statusLabel.setText("Managing: " + team.getCrest() + " " + team.getName());
+            UiStyles.applyAccentBadge(statusLabel, team.getAccentColor());
+        } else if (statusLabel != null) {
+            statusLabel.setText("");
+            UiStyles.clearAccentBadge(statusLabel);
+        }
+        if (budgetLabel != null && team != null) {
+            budgetLabel.setText(team.getCrest() + " Active Club: " + team.getName());
+            UiStyles.applyAccentBadge(budgetLabel, team.getAccentColor());
+        } else if (budgetLabel != null) {
+            budgetLabel.setText("Active Club");
+            UiStyles.clearAccentBadge(budgetLabel);
+        }
     }
 
     @FXML public void showPlayers() {
         playersPanel.setVisible(true);  playersPanel.setManaged(true);
         coachesPanel.setVisible(false); coachesPanel.setManaged(false);
+        updateTabState(true);
     }
 
     @FXML public void showCoaches() {
         coachesPanel.setVisible(true);  coachesPanel.setManaged(true);
         playersPanel.setVisible(false); playersPanel.setManaged(false);
+        updateTabState(false);
     }
 
     @FXML public void goBack() {
-        if (statusLabel != null) statusLabel.setText("Returning...");
+        if (sport == null) {
+            if (statusLabel != null) statusLabel.setText("Returning...");
+            return;
+        }
+
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("LeagueView.fxml"));
+            Stage stage = (Stage) statusLabel.getScene().getWindow();
+            UiNavigator.setScene(stage, loader.load(),
+                    sport != null ? "Sports Manager - " + sport.getSportName() + " Control Room" : "Sports Manager - League View");
+            LeagueViewController controller = loader.getController();
+            controller.setSport(sport);
+            controller.setManagedTeamName(currentTeam != null ? currentTeam.getName() : null);
+            stage.show();
+        } catch (Exception e) {
+            if (statusLabel != null) statusLabel.setText("Could not return to league.");
+        }
     }
 
     private void refreshPlayers() {
@@ -113,5 +158,16 @@ public class TeamViewController implements Initializable {
     private void refreshCoaches() {
         if (currentTeam != null)
             coachesTable.setItems(FXCollections.observableArrayList(currentTeam.getCoaches()));
+    }
+
+    private void updateTabState(boolean playersActive) {
+        if (playersTabBtn != null) {
+            playersTabBtn.getStyleClass().removeAll("tab-button-active", "tab-button-inactive");
+            playersTabBtn.getStyleClass().add(playersActive ? "tab-button-active" : "tab-button-inactive");
+        }
+        if (coachesTabBtn != null) {
+            coachesTabBtn.getStyleClass().removeAll("tab-button-active", "tab-button-inactive");
+            coachesTabBtn.getStyleClass().add(playersActive ? "tab-button-inactive" : "tab-button-active");
+        }
     }
 }

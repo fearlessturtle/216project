@@ -1,32 +1,38 @@
-[
-  "Chicago",
-  "Boston",
-  "Miami",
-  "Dallas",
-  "Denver",
-  "Phoenix",
-  "Brooklyn",
-  "Toronto",
-  "Milwaukee",
-  "Atlanta",
-  "Los Angeles",
-  "San Francisco",
-  "Seattle",
-  "Houston",
-  "Orlando",
-  "Cleveland",
-  "Detroit",
-  "Portland",
-  "Sacramento",
-  "San Antonio",
-  "New York",
-  "Philadelphia",
-  "Charlotte",
-  "Memphis",
-  "Minnesota",
-  "New Orleans",
-  "Indiana",
-  "Oklahoma City",
-  "Utah",
-  "Washington"
-]
+{
+  "male": {
+    "first": [
+      "James", "Carlos", "Luca", "Ahmed", "Marcus",
+      "Oliver", "Noah", "Ethan", "Mason", "Jon",
+      "Ryland", "Joey", "Jackson", "Sebastian", "Mateo",
+      "Jack", "Paul", "Chandler", "Stanley", "Henry",
+      "Kenji", "Rafael", "Andres", "Dmitri", "Yusuf",
+      "Hans", "Ivan", "Jisung", "Finn", "Hugo"
+    ],
+    "last": [
+      "Smith", "Garcia", "Johnson", "Williams", "Brown",
+      "Jones", "Miller", "Tribbiani", "Wilson", "Moore",
+      "Taylor", "Anderson", "Thomas", "Jackson", "Han",
+      "Harris", "Martin", "Landa", "Martinez", "Robinson",
+      "Sully", "Muller", "Kubrick", "Santos", "Snow",
+      "Kowalski", "Bing", "Kim", "Tanaka", "Atreides"
+    ]
+  },
+  "female": {
+    "first": [
+      "Emma", "Phoebe", "Olivia", "Ava", "Isabella",
+      "Coroline", "Charlotte", "Amelia", "Bella", "Evelyn",
+      "Luna", "Camila", "Penelope", "Riley", "Zoey",
+      "Nora", "Lily", "Alara", "Hannah", "Feyre",
+      "Fatima", "Yuki", "Priya", "Amara", "Elena",
+      "Leila", "Ingrid", "Katniss", "Zoe", "Aria"
+    ],
+    "last": [
+      "Smith", "Buffay", "Johnson", "Williams", "Brown",
+      "Jones", "Miller", "Davis", "Wilson", "Moore",
+      "Taylor", "Anderson", "Thomas", "Swan", "Everdeen",
+      "Harris", "Martin", "Thompson", "Martinez", "Robinson",
+      "Rossi", "Muller", "Dubois", "Santos", "Novak",
+      "Kowalski", "Petrov", "Kim", "Tanaka", "Hassan"
+    ]
+  }
+}

@@ -3,6 +3,8 @@ package com.sportsmanager.sports.basketball;
 import com.sportsmanager.core.AbstractCoach;
 import com.sportsmanager.core.Player;
 
+import java.util.Locale;
+
 public class BasketballCoach extends AbstractCoach {
 
     public BasketballCoach(String name, int age, String speciality, int experience) {
@@ -11,25 +13,32 @@ public class BasketballCoach extends AbstractCoach {
 
     @Override
     public void train(Player player) {
-        if (!(player instanceof BasketballPlayer bp)) return;
+        if (!(player instanceof BasketballPlayer bp)) {
+            return;
+        }
 
         int bonus = getTrainingBonus();
-        switch (speciality) {
-            case "Offense" -> {
+        String role = speciality == null ? "" : speciality.trim().toLowerCase(Locale.ROOT);
+
+        switch (role) {
+            case "offense":
+            case "attack":
                 bp.setShooting(clamp(bp.getShooting() + bonus));
                 bp.setPassing(clamp(bp.getPassing() + bonus));
                 bp.setDribbling(clamp(bp.getDribbling() + bonus));
-            }
-            case "Defense" -> {
+                break;
+            case "defense":
                 bp.setDefense(clamp(bp.getDefense() + bonus));
                 bp.setRebounding(clamp(bp.getRebounding() + bonus));
-            }
-            case "Fitness" -> bp.setSpeed(clamp(bp.getSpeed() + bonus));
-            default -> {
+                break;
+            case "fitness":
+                bp.setSpeed(clamp(bp.getSpeed() + bonus));
+                break;
+            default:
                 bp.setShooting(clamp(bp.getShooting() + bonus));
                 bp.setPassing(clamp(bp.getPassing() + bonus));
                 bp.setDefense(clamp(bp.getDefense() + bonus));
-            }
+                break;
         }
     }
 

@@ -1,30 +1,38 @@
 package com.sportsmanager.sports.football;
+
 import com.sportsmanager.core.AbstractCoach;
 import com.sportsmanager.core.Player;
+
+import java.util.Locale;
 
 public class FootballCoach extends AbstractCoach {
     public FootballCoach(String name, int age, String speciality, int experience) {
         super(name, age, speciality, experience);
     }
 
-
     @Override
     public void train(Player player) {
-        if (player == null) return;
-        if (!(player instanceof FootballPlayer)) return;
+        if (player == null) {
+            return;
+        }
+        if (!(player instanceof FootballPlayer)) {
+            return;
+        }
 
         FootballPlayer fp = (FootballPlayer) player;
         int bonus = getTrainingBonus();
+        String role = speciality == null ? "" : speciality.trim().toLowerCase(Locale.ROOT);
 
-        switch (speciality) {
-            case "Attack":
+        switch (role) {
+            case "attack":
+            case "offense":
                 fp.setShooting(clamp(fp.getShooting() + bonus));
-                fp.setPassing(clamp(fp.getPassing()   + bonus));
+                fp.setPassing(clamp(fp.getPassing() + bonus));
                 break;
-            case "Defense":
+            case "defense":
                 fp.setTackling(clamp(fp.getTackling() + bonus));
                 break;
-            case "Fitness":
+            case "fitness":
                 fp.setStamina(Math.min(100, fp.getStamina() + bonus));
                 break;
             default:
@@ -33,12 +41,11 @@ public class FootballCoach extends AbstractCoach {
         }
     }
 
-
     @Override
     public int getTrainingBonus() {
         if (experience >= 20) return 4;
         if (experience >= 10) return 3;
-        if (experience >= 5)  return 2;
+        if (experience >= 5) return 2;
         return 1;
     }
 

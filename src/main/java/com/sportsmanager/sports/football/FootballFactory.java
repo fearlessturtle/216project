@@ -42,12 +42,26 @@ public class FootballFactory implements SportFactory {
 
     @Override
     public Tactic createTactic(String name) {
-        // The name passed is used as the formation (e.g. "4-4-2")
-        return new FootballTactic(
-                name != null ? name : "4-4-2",
-                5,
-                5
-        );
+        String formation = name != null ? name : "4-4-2";
+        double offensive = 0.0;
+        double defensive = 0.0;
+
+        if ("4-3-3".equalsIgnoreCase(formation)) {
+            offensive = 0.2;
+            defensive = -0.1;
+        } else if ("3-5-2".equalsIgnoreCase(formation)) {
+            offensive = 0.1;
+            defensive = 0.05;
+        } else if ("5-4-1".equalsIgnoreCase(formation)) {
+            offensive = -0.2;
+            defensive = 0.25;
+        } else {
+            formation = "4-4-2";
+            offensive = 0.0;
+            defensive = 0.0;
+        }
+
+        return new FootballTactic(formation, offensive, defensive);
     }
 
     @Override
@@ -62,7 +76,7 @@ public class FootballFactory implements SportFactory {
     }
 
     @Override
-    public AbstractLeague createLeague() {
+    public League createLeague() {
         return new FootballLeague();
     }
 

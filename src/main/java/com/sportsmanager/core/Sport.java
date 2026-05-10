@@ -16,6 +16,8 @@ public interface Sport {
 
     List<TeamStanding> getLeagueTable();
 
+    League getLeague();
+
     int getCurrentWeek();
 
     boolean isSeasonOver();

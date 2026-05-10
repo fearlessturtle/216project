@@ -1,3 +1,9 @@
 target/
+.m2/
+manual-target/
+manual-target2/
 .idea/
 *.class
+maven-home/
+maven-local/
+saves/

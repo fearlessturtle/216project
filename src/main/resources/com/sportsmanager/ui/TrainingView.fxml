@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.sportsmanager.ui.TrainingController"
+            stylesheets="@app.css"
+            prefWidth="1200" prefHeight="720"
+            styleClass="training-root">
+
+    <top>
+        <VBox spacing="10" styleClass="training-header">
+            <HBox alignment="CENTER_LEFT" spacing="16">
+                <VBox spacing="4">
+                    <Label text="TRAIN THIS WEEK" styleClass="eyebrow"/>
+                    <Label text="Pick drills. Pick a coach. Go." styleClass="hero-title-small-light"/>
+                </VBox>
+                <Region HBox.hgrow="ALWAYS"/>
+                <Label fx:id="weekLabel" text="Week 1" styleClass="feature-chip chip-gold"/>
+            </HBox>
+        </VBox>
+    </top>
+
+    <center>
+        <HBox spacing="18" style="-fx-padding: 18;">
+            <VBox spacing="12" HBox.hgrow="ALWAYS" styleClass="panel-card">
+                <HBox alignment="CENTER_LEFT" spacing="8">
+                    <Label text="Training Menu" styleClass="panel-title"/>
+                    <Label text="What's the focus?" styleClass="panel-subtitle"/>
+                </HBox>
+                <CheckBox fx:id="chkShooting"  text="Shooting"  onAction="#updatePreview"/>
+                <CheckBox fx:id="chkDefensive" text="Defense" onAction="#updatePreview"/>
+                <CheckBox fx:id="chkStamina"   text="Cardio"      onAction="#updatePreview"/>
+                <CheckBox fx:id="chkPassing"   text="Passing"   onAction="#updatePreview"/>
+                <Separator/>
+                <Label text="Your Squad" styleClass="panel-title"/>
+                <ListView fx:id="playerListView" VBox.vgrow="ALWAYS" prefHeight="250"/>
+                <Label fx:id="expectedGrowthLabel"
+                       text="Squad boost: +0 Level Up"
+                       styleClass="chip chip-emerald"/>
+            </VBox>
+
+            <VBox spacing="12" prefWidth="320" styleClass="panel-card">
+                <VBox spacing="4">
+                    <Label text="Coaches" styleClass="panel-title"/>
+                    <Label text="Pick a coach" styleClass="panel-subtitle" wrapText="true"/>
+                </VBox>
+                <ListView fx:id="coachListView" VBox.vgrow="ALWAYS" prefHeight="250"/>
+                <Label text="Coach:" styleClass="panel-subtitle"/>
+                <Label fx:id="selectedCoachLabel" text="None" styleClass="hero-title-small" wrapText="true"/>
+                <Label fx:id="coachBonusLabel" text="" styleClass="chip chip-gold"/>
+            </VBox>
+        </HBox>
+    </center>
+
+    <bottom>
+        <HBox alignment="CENTER_RIGHT" spacing="10" styleClass="action-rail">
+            <Label fx:id="statusLabel" text="" styleClass="status-line"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Button text="Back" onAction="#goBack" styleClass="ghost-action"/>
+            <Button text="Start Training" onAction="#startTraining" styleClass="primary-action"/>
+        </HBox>
+    </bottom>
+</BorderPane>

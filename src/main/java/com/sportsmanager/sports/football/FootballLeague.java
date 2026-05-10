@@ -1,12 +1,12 @@
 package com.sportsmanager.sports.football;
 
 import com.sportsmanager.core.*;
+import com.sportsmanager.engine.FixtureGenerator;
 import java.util.*;
 
 public class FootballLeague extends AbstractLeague {
 
     private static final int NUM_TEAMS = 20;
-    private static final int WEEKS_PER_SEASON = 38;
 
     @Override
     public void generateFixture() {
@@ -17,27 +17,10 @@ public class FootballLeague extends AbstractLeague {
 
         fixtures.clear();
 
-        for (int half = 0; half < 2; half++) {
-            for (int round = 0; round < NUM_TEAMS - 1; round++) {
-                for (int i = 0; i < NUM_TEAMS / 2; i++) {
-                    Team home = teams.get(i);
-                    Team away = teams.get(NUM_TEAMS - 1 - i);
-
-                    if (!home.equals(away)) {
-                        Match match = new FootballMatch(home, away);
-                        fixtures.add(match);
-                    }
-                }
-
-                rotateTeams(teams);
-            }
+        FixtureGenerator generator = new FixtureGenerator();
+        for (Team[] pair : generator.generatePairs(teams)) {
+            fixtures.add(new FootballMatch(pair[0], pair[1]));
         }
-    }
-
-    private void rotateTeams(List<Team> teams) {
-        if (teams.size() <= 2) return;
-        Team temp = teams.remove(teams.size() - 1);
-        teams.add(1, temp);
     }
 
     @Override
@@ -47,14 +30,13 @@ public class FootballLeague extends AbstractLeague {
         }
 
         List<Team> result = new ArrayList<>(tiedTeams);
-        Random random = new Random();
 
         result.sort((t1, t2) -> {
             // 1. Points first
             TeamStanding s1 = standings.get(t1);
             TeamStanding s2 = standings.get(t2);
-            int p1 = s1.getPoints(3, 1);
-            int p2 = s2.getPoints(3, 1);
+            int p1 = s1 != null ? s1.getPoints(2, 1) : 0;
+            int p2 = s2 != null ? s2.getPoints(2, 1) : 0;
             if (p1 != p2) return Integer.compare(p2, p1);
 
             int h2hCompare = compareHeadToHead(t1, t2);
@@ -62,11 +44,21 @@ public class FootballLeague extends AbstractLeague {
                 return h2hCompare;
             }
 
-            if (s1.getGoalDifference() != s2.getGoalDifference()) {
-                return Integer.compare(s2.getGoalDifference(), s1.getGoalDifference());
+            int gd1 = s1 != null ? s1.getGoalDifference() : 0;
+            int gd2 = s2 != null ? s2.getGoalDifference() : 0;
+            if (gd1 != gd2) {
+                return Integer.compare(gd2, gd1);
             }
 
-            return random.nextInt(2) == 0 ? -1 : 1;
+            long c1 = coinTossScore(t1);
+            long c2 = coinTossScore(t2);
+            if (c1 != c2) {
+                return Long.compare(c2, c1);
+            }
+
+            String name1 = t1 != null && t1.getName() != null ? t1.getName() : "";
+            String name2 = t2 != null && t2.getName() != null ? t2.getName() : "";
+            return name1.compareToIgnoreCase(name2);
         });
 
         return result;
@@ -86,7 +78,7 @@ public class FootballLeague extends AbstractLeague {
             int homeScore = match.getHomeScore();
             int awayScore = match.getAwayScore();
 
-            if (home.equals(t1) && away.equals(t2)) {
+            if (home != null && away != null && home.equals(t1) && away.equals(t2)) {
                 if (homeScore > awayScore) {
                     t1Points += 2;
                 } else if (homeScore == awayScore) {
@@ -95,7 +87,7 @@ public class FootballLeague extends AbstractLeague {
                 } else {
                     t2Points += 2;
                 }
-            } else if (home.equals(t2) && away.equals(t1)) {
+            } else if (home != null && away != null && home.equals(t2) && away.equals(t1)) {
                 if (homeScore > awayScore) {
                     t2Points += 2;
                 } else if (homeScore == awayScore) {

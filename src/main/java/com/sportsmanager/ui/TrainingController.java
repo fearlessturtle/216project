@@ -2,12 +2,15 @@ package com.sportsmanager.ui;
 
 import com.sportsmanager.core.Coach;
 import com.sportsmanager.core.Player;
+import com.sportsmanager.core.Sport;
 import com.sportsmanager.core.Team;
 
 import javafx.collections.FXCollections;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.stage.Stage;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -17,6 +20,7 @@ import java.util.ResourceBundle;
 
 public class TrainingController implements Initializable {
 
+    private Sport sport;
     @FXML private Label    weekLabel;
     @FXML private Label    statusLabel;
     @FXML private Label    expectedGrowthLabel;
@@ -36,6 +40,10 @@ public class TrainingController implements Initializable {
     private List<Player> playerObjects = new ArrayList<>();
     private List<Coach>  coachObjects  = new ArrayList<>();
 
+    public void setSport(Sport sport) {
+        this.sport = sport;
+    }
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         setupCoachSelection();
@@ -46,6 +54,13 @@ public class TrainingController implements Initializable {
         this.currentTeam = team;
         refreshPlayerList();
         refreshCoachList();
+        if (statusLabel != null && team != null) {
+            statusLabel.setText("Training deck: " + team.getCrest() + " " + team.getName());
+            UiStyles.applyAccentBadge(statusLabel, team.getAccentColor());
+        } else if (statusLabel != null) {
+            statusLabel.setText("");
+            UiStyles.clearAccentBadge(statusLabel);
+        }
     }
 
     public void setCurrentWeek(int week) {
@@ -71,7 +86,7 @@ public class TrainingController implements Initializable {
         int bonus  = (selectedCoach != null) ? selectedCoach.getTrainingBonus() : 1;
         int drills = countSelectedDrills();
         if (expectedGrowthLabel != null)
-            expectedGrowthLabel.setText("Expected attribute growth: +" + (bonus * Math.max(drills, 1)) + " Overall");
+            expectedGrowthLabel.setText("Squad boost: +" + (bonus * Math.max(drills, 1)) + " Level Up");
     }
 
     @FXML public void startTraining() {
@@ -88,11 +103,38 @@ public class TrainingController implements Initializable {
                 if (p.isAvailable()) { p.train(selectedCoach); trained++; }
             }
         }
+        
+        if (trained > 0 && selectedCoach != null) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Training Session Complete");
+            alert.setHeaderText("Squad Leveled Up");
+            alert.setContentText(trained + " player(s) trained successfully by " + selectedCoach.getName() + ".");
+            alert.showAndWait();
+        }
+        
         setStatus(trained + " player(s) trained successfully.");
         refreshPlayerList();
     }
 
-    @FXML public void goBack() { setStatus("Returning..."); }
+    @FXML public void goBack() {
+        if (sport == null) {
+            setStatus("Returning...");
+            return;
+        }
+
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("LeagueView.fxml"));
+            Stage stage = (Stage) statusLabel.getScene().getWindow();
+            UiNavigator.setScene(stage, loader.load(),
+                    sport != null ? "Sports Manager - " + sport.getSportName() + " Control Room" : "Sports Manager - League View");
+            LeagueViewController controller = loader.getController();
+            controller.setSport(sport);
+            controller.setManagedTeamName(currentTeam != null ? currentTeam.getName() : null);
+            stage.show();
+        } catch (Exception e) {
+            setStatus("Could not return to league.");
+        }
+    }
 
     private void refreshPlayerList() {
         if (currentTeam == null) return;
@@ -100,7 +142,8 @@ public class TrainingController implements Initializable {
         List<String> display = new ArrayList<>();
         for (Player p : playerObjects) {
             String st = p.isInjured() ? " [INJURED]" : (p.isAvailable() ? "" : " [TIRED]");
-            display.add(p.getName() + " (" + p.getPosition() + ")  Rating:" + p.getOverallRating() + st);
+            display.add(p.getName() + " (" + p.getPosition() + ")  Rating:" + p.getOverallRating()
+                    + "  Stamina:" + p.getStamina() + st);
         }
         playerListView.setItems(FXCollections.observableArrayList(display));
         playerListView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);

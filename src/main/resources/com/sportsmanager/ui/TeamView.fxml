@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.sportsmanager.ui.TeamViewController"
+            stylesheets="@app.css"
+            prefWidth="1200" prefHeight="720"
+            styleClass="team-root">
+
+    <top>
+        <VBox spacing="10" styleClass="team-header">
+            <HBox alignment="CENTER_LEFT" spacing="16">
+                <VBox spacing="4">
+                    <Label text="THE SQUAD" styleClass="eyebrow"/>
+                    <Label text="Your squad. Your coaches. Right here." styleClass="hero-title-small-light"/>
+                </VBox>
+                <Region HBox.hgrow="ALWAYS"/>
+                <Label fx:id="budgetLabel" text="Active Club" styleClass="feature-chip chip-gold"/>
+            </HBox>
+        </VBox>
+    </top>
+
+    <center>
+        <VBox spacing="14" styleClass="table-shell">
+            <HBox spacing="8" styleClass="tab-strip">
+                <Button fx:id="playersTabBtn" text="Players" onAction="#showPlayers" styleClass="tab-button"/>
+                <Button fx:id="coachesTabBtn" text="Coaches" onAction="#showCoaches" styleClass="tab-button"/>
+            </HBox>
+
+            <VBox fx:id="playersPanel" spacing="10" VBox.vgrow="ALWAYS" styleClass="panel-card">
+                <HBox alignment="CENTER_LEFT" spacing="8">
+                    <Label text="Players" styleClass="panel-title"/>
+                    <Label text="Who's ready. Who needs rest." styleClass="panel-subtitle"/>
+                </HBox>
+                <TableView fx:id="playersTable" VBox.vgrow="ALWAYS" styleClass="roster-table">
+                    <columns>
+                        <TableColumn fx:id="colName"     text="Name"     prefWidth="260"/>
+                        <TableColumn fx:id="colPosition" text="Pos"      prefWidth="90"/>
+                        <TableColumn fx:id="colRating"   text="Rating"   prefWidth="90"/>
+                        <TableColumn fx:id="colStatus"   text="Status"   prefWidth="280"/>
+                    </columns>
+                    <placeholder><Label text="No squad yet."/></placeholder>
+                </TableView>
+            </VBox>
+
+            <VBox fx:id="coachesPanel" spacing="10" VBox.vgrow="ALWAYS" visible="false" managed="false" styleClass="panel-card">
+                <HBox alignment="CENTER_LEFT" spacing="8">
+                    <Label text="Coaches" styleClass="panel-title"/>
+                    <Label text="Who's coaching this week." styleClass="panel-subtitle"/>
+                </HBox>
+                <TableView fx:id="coachesTable" VBox.vgrow="ALWAYS" styleClass="roster-table">
+                    <columns>
+                        <TableColumn fx:id="colCoachName"       text="Name"       prefWidth="240"/>
+                        <TableColumn fx:id="colCoachSpeciality" text="Speciality" prefWidth="150"/>
+                        <TableColumn fx:id="colCoachExperience" text="Exp (yrs)"  prefWidth="100"/>
+                        <TableColumn fx:id="colCoachBonus"      text="Bonus"      prefWidth="100"/>
+                    </columns>
+                    <placeholder><Label text="No staff assigned."/></placeholder>
+                </TableView>
+            </VBox>
+        </VBox>
+    </center>
+
+    <bottom>
+        <HBox alignment="CENTER_RIGHT" spacing="10" styleClass="action-rail">
+            <Label fx:id="statusLabel" text="" styleClass="status-line"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Button text="Back" onAction="#goBack" styleClass="ghost-action"/>
+        </HBox>
+    </bottom>
+</BorderPane>

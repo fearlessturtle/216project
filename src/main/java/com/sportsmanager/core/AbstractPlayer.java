@@ -47,6 +47,11 @@ public abstract class AbstractPlayer implements Player {
     public int getInjuryGamesLeft() {
         return injuryGames;
     }
+
+    @Override
+    public int getStamina() {
+        return stamina;
+    }
     @Override
     public void applyMatchFatigue() {
         stamina = Math.max(0, stamina - 15);
@@ -72,9 +77,11 @@ public abstract class AbstractPlayer implements Player {
         this.injured = true;
         this.injuryGames = games;
     }
-    public int getStamina() {
-        return stamina;
+
+    public void setStamina(int stamina) {
+        this.stamina = Math.max(0, Math.min(100, stamina));
     }
+
     public String getGender() {
         return gender;
     }

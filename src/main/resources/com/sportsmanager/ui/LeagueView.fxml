@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.sportsmanager.ui.LeagueViewController"
+            stylesheets="@app.css"
+            prefWidth="1200" prefHeight="720"
+            styleClass="league-root">
+
+    <top>
+        <VBox spacing="12" styleClass="league-header">
+            <HBox alignment="CENTER_LEFT" spacing="16">
+                <VBox spacing="4">
+                    <Label text="THE STANDINGS" styleClass="eyebrow"/>
+                    <Label fx:id="seasonLabel" text="Season Week 1" styleClass="hero-title-small-light"/>
+                    <Label text="You control the league. Make the right moves."
+                           styleClass="status-line-light" wrapText="true"/>
+                </VBox>
+                <Region HBox.hgrow="ALWAYS"/>
+                <VBox alignment="CENTER_RIGHT" spacing="6">
+                    <Label fx:id="weekLabel" text="Week: 1" styleClass="feature-chip chip-gold"/>
+                    <Label text="Managed Club" styleClass="status-line-light"/>
+                    <ComboBox fx:id="teamComboBox" prefWidth="240" styleClass="sport-combo"/>
+                    <Label fx:id="managedTeamLabel" text="No club selected" styleClass="feature-chip chip-dark-slate"/>
+                    <Label fx:id="statusLabel" text="" styleClass="status-line-light"/>
+                </VBox>
+            </HBox>
+            <VBox spacing="4" maxWidth="660" alignment="CENTER_LEFT" styleClass="fixture-banner">
+                <Label text="UP NEXT" styleClass="eyebrow"/>
+                <Label fx:id="nextFixtureLabel" text="Loading next match" wrapText="true" styleClass="fixture-banner-title"/>
+                <Label fx:id="nextOpponentLabel" text="Opponent: --" wrapText="true" styleClass="fixture-banner-detail"/>
+            </VBox>
+        </VBox>
+    </top>
+
+    <center>
+        <StackPane>
+            <Region styleClass="orb orb-one" mouseTransparent="true"/>
+            <Region styleClass="orb orb-two" mouseTransparent="true"/>
+            <Region styleClass="orb orb-three" mouseTransparent="true"/>
+            <VBox spacing="12" styleClass="table-shell">
+                <HBox alignment="CENTER_LEFT" spacing="10">
+                    <Label text="The table" styleClass="panel-title"/>
+                    <Label text="Win = 2 points. Draw = 1 point. That's it." styleClass="panel-subtitle"/>
+                </HBox>
+                <TableView fx:id="standingsTable" prefHeight="540" styleClass="standings-table">
+                    <columns>
+                        <TableColumn fx:id="rankColumn" text="#" prefWidth="50"/>
+                        <TableColumn fx:id="teamColumn" text="Team" prefWidth="250"/>
+                        <TableColumn fx:id="playedColumn" text="P" prefWidth="50"/>
+                        <TableColumn fx:id="winsColumn" text="W" prefWidth="50"/>
+                        <TableColumn fx:id="drawsColumn" text="D" prefWidth="50"/>
+                        <TableColumn fx:id="lossesColumn" text="L" prefWidth="50"/>
+                        <TableColumn fx:id="pointsColumn" text="Pts" prefWidth="70"/>
+                        <TableColumn fx:id="goalDifferenceColumn" text="GD" prefWidth="70"/>
+                    </columns>
+                    <placeholder>
+                        <Label text="No clubs. Play some matches." />
+                    </placeholder>
+                </TableView>
+            </VBox>
+        </StackPane>
+    </center>
+
+    <bottom>
+        <HBox alignment="CENTER_RIGHT" spacing="10" styleClass="action-rail">
+            <Button fx:id="teamButton" text="Squad" onAction="#handleTeamView" styleClass="secondary-action"/>
+            <Button fx:id="trainingButton" text="Training" onAction="#handleTraining" styleClass="secondary-action"/>
+            <Button fx:id="saveButton" text="Save Game" onAction="#handleSaveGame" styleClass="ghost-action"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Button fx:id="backButton" text="Home" onAction="#handleBackToMenu" styleClass="ghost-action"/>
+            <Button fx:id="proceedButton" text="Play" onAction="#handleProceed" styleClass="primary-action"/>
+        </HBox>
+    </bottom>
+
+</BorderPane>

@@ -1,10 +1,105 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<VBox xmlns:fx="http://javafx.com/fxml"
-      fx:controller="com.sportsmanager.ui.MatchViewController"
-      alignment="CENTER" spacing="10" prefWidth="500" prefHeight="400">
-    <Label text="Match Events"/>
-    <TextArea fx:id="eventLog" editable="false" prefHeight="300" wrapText="true"/>
-    <Button fx:id="continueButton" text="View Results" onAction="#handleContinue"/>
-</VBox>
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.sportsmanager.ui.MatchViewController"
+            stylesheets="@app.css"
+            prefWidth="1200" prefHeight="720"
+            styleClass="match-root">
+    <top>
+        <VBox spacing="8" styleClass="match-header">
+            <Label text="LIVE" styleClass="eyebrow"/>
+            <Label text="You're in. Watch what happens."
+                   styleClass="status-line-light" wrapText="true"/>
+        </VBox>
+    </top>
+
+    <center>
+        <StackPane>
+            <padding>
+                <Insets top="40" right="64" bottom="24" left="64"/>
+            </padding>
+            <Region styleClass="orb orb-one" mouseTransparent="true"/>
+            <Region styleClass="orb orb-two" mouseTransparent="true"/>
+            <Region styleClass="orb orb-three" mouseTransparent="true"/>
+            <VBox spacing="12" maxWidth="1040" styleClass="panel-card match-panel-card">
+                <HBox alignment="CENTER_LEFT" spacing="10">
+                    <VBox spacing="4">
+                        <Label text="Match Updates" styleClass="panel-title-light"/>
+                        <Label fx:id="matchPulseLabel" text="Action's happening right now." styleClass="match-pulse" wrapText="true"/>
+                        <Label fx:id="momentumLabel" text="Live swing." styleClass="momentum-chip" wrapText="true" maxWidth="240"/>
+                    </VBox>
+                    <Region HBox.hgrow="ALWAYS"/>
+                    <VBox alignment="CENTER_RIGHT" spacing="2">
+                        <Label text="LIVE SCORE" styleClass="score-pulse-caption"/>
+                        <HBox alignment="CENTER" spacing="8">
+                            <Label fx:id="homeScoreLabel" text="0" styleClass="live-score-number"/>
+                            <Label text="-" styleClass="live-score-divider"/>
+                            <Label fx:id="awayScoreLabel" text="0" styleClass="live-score-number"/>
+                        </HBox>
+                    </VBox>
+                </HBox>
+                <TabPane fx:id="matchTabPane"
+                         side="TOP"
+                         tabClosingPolicy="UNAVAILABLE"
+                         VBox.vgrow="ALWAYS"
+                         styleClass="match-tab-pane">
+                    <tabs>
+                        <Tab text="Best Moments">
+                            <content>
+                                <VBox spacing="8" styleClass="match-tab-page">
+                                    <VBox spacing="2">
+                                        <Label text="Key moments" styleClass="score-pulse-caption"/>
+                                        <Label text="The wild moments." styleClass="match-mode-caption" wrapText="true"/>
+                                    </VBox>
+                                    <ScrollPane fx:id="digestScrollPane"
+                                                fitToHeight="true"
+                                                hbarPolicy="AS_NEEDED"
+                                                vbarPolicy="NEVER"
+                                                prefViewportHeight="202"
+                                                styleClass="match-digest-shell">
+                                        <content>
+                                            <HBox fx:id="highlightFeed" spacing="12" styleClass="match-digest-strip"/>
+                                        </content>
+                                    </ScrollPane>
+                                </VBox>
+                            </content>
+                        </Tab>
+                        <Tab text="Full Play-by-Play">
+                            <content>
+                                <VBox spacing="8" styleClass="match-tab-page">
+                                    <VBox spacing="2">
+                                        <Label text="Full report" styleClass="score-pulse-caption"/>
+                                        <Label text="Everything that went down." styleClass="match-mode-caption" wrapText="true"/>
+                                    </VBox>
+                                    <ScrollPane fx:id="feedScrollPane"
+                                                fitToWidth="true"
+                                                hbarPolicy="NEVER"
+                                                prefViewportHeight="460"
+                                                VBox.vgrow="ALWAYS"
+                                                styleClass="match-feed-shell">
+                                        <content>
+                                            <VBox fx:id="eventFeed" spacing="10" styleClass="match-feed"/>
+                                        </content>
+                                    </ScrollPane>
+                                </VBox>
+                            </content>
+                        </Tab>
+                    </tabs>
+                </TabPane>
+            </VBox>
+        </StackPane>
+    </center>
+
+    <bottom>
+        <HBox alignment="CENTER_RIGHT" spacing="10" styleClass="action-rail dark-rail">
+            <padding>
+                <Insets top="18" right="64" bottom="18" left="64"/>
+            </padding>
+            <Label text="Watch it unfold. Updates as it happens." styleClass="status-line-light" wrapText="true"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Button fx:id="continueButton" text="See Results" onAction="#handleContinue" disable="true" styleClass="primary-action"/>
+        </HBox>
+    </bottom>
+</BorderPane>

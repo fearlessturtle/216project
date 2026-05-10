@@ -10,49 +10,42 @@ import java.util.List;
 
 public class StandingsCalculator {
     public void calculate(League league) {
+        if (league == null) {
+            return;
+        }
+
         for (Match match : league.getFixtures()) {
-            if (match.isCompleted()) {
+            if (match != null && match.isCompleted()) {
                 league.updateStandings(match);
             }
         }
     }
 
     public void updateAfterMatch(League league, Match match) {
-        if (match.isCompleted()) {
-            league.updateStandings(match);
+        if (league == null || match == null || !match.isCompleted()) {
+            return;
         }
+        league.updateStandings(match);
     }
 
     public List<TeamStanding> getSortedStandings(League league) {
-        List<TeamStanding> sorted = new ArrayList<>(league.getStandings());
+        if (league == null) {
+            return List.of();
+        }
 
-        sorted.sort((s1, s2) -> {
-            int p1 = s1.getPoints(2, 1);
-            int p2 = s2.getPoints(2, 1);
-            if (p1 != p2) {
-                return Integer.compare(p2, p1);
-            }
-
-            if (s1.getGoalDifference() != s2.getGoalDifference()) {
-                return Integer.compare(
-                        s2.getGoalDifference(),
-                        s1.getGoalDifference()
-                );
-            }
-
-            return Integer.compare(s2.getGoalsFor(), s1.getGoalsFor());
-        });
-
-        return sorted;
+        return new ArrayList<>(league.getStandings());
     }
 
     public TeamStanding getWinner(League league) {
-        if (!league.isSeasonOver()) return null;
+        if (league == null || !league.isSeasonOver()) return null;
         List<TeamStanding> sorted = getSortedStandings(league);
         return sorted.isEmpty() ? null : sorted.get(0);
     }
 
     public int calculatePoints(TeamStanding standing) {
+        if (standing == null) {
+            return 0;
+        }
         return standing.getPoints(2, 1);
     }
 }

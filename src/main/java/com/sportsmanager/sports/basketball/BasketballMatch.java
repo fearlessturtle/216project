@@ -1,6 +1,7 @@
 package com.sportsmanager.sports.basketball;
 
 import com.sportsmanager.core.AbstractMatch;
+import com.sportsmanager.core.AbstractPlayer;
 import com.sportsmanager.core.MatchEvent;
 import com.sportsmanager.core.Player;
 import com.sportsmanager.core.Tactic;
@@ -8,24 +9,39 @@ import com.sportsmanager.core.Team;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.LinkedHashSet;
 import java.util.Random;
+import java.util.Set;
 
 public class BasketballMatch extends AbstractMatch {
 
     private List<Player> homeLineup;
     private List<Player> awayLineup;
     private Random random;
+    private Set<Player> homeMatchParticipants;
+    private Set<Player> awayMatchParticipants;
+    private Set<Player> homePeriodParticipants;
+    private Set<Player> awayPeriodParticipants;
 
     public BasketballMatch(Team homeTeam, Team awayTeam) {
         super(homeTeam, awayTeam);
         this.homeLineup = new ArrayList<>();
         this.awayLineup = new ArrayList<>();
         this.random = new Random();
+        this.homeMatchParticipants = new LinkedHashSet<>();
+        this.awayMatchParticipants = new LinkedHashSet<>();
+        this.homePeriodParticipants = new LinkedHashSet<>();
+        this.awayPeriodParticipants = new LinkedHashSet<>();
     }
 
     @Override
     protected int getPeriodCount() {
         return 4;
+    }
+
+    @Override
+    protected int getPeriodLength() {
+        return 12;
     }
 
     @Override
@@ -36,8 +52,11 @@ public class BasketballMatch extends AbstractMatch {
         if (periodNumber == 1) {
             homeLineup = new ArrayList<>(homeTeam.selectLineup());
             awayLineup = new ArrayList<>(awayTeam.selectLineup());
+            homeMatchParticipants.clear();
+            awayMatchParticipants.clear();
         }
 
+        beginPeriodTracking();
         for (int minute = startMinute; minute <= endMinute; minute++) {
             double homeAvg = calcAvg(homeLineup);
             double awayAvg = calcAvg(awayLineup);
@@ -80,8 +99,15 @@ public class BasketballMatch extends AbstractMatch {
 
         notifyObservers(MatchEvent.periodEnd(endMinute));
 
-        for (Player p : homeLineup) p.applyMatchFatigue();
-        for (Player p : awayLineup) p.applyMatchFatigue();
+        for (Player p : homePeriodParticipants) p.applyMatchFatigue();
+        for (Player p : awayPeriodParticipants) p.applyMatchFatigue();
+
+        if (periodNumber == getPeriodCount()) {
+            recoverInactivePlayers(homeTeam, homeMatchParticipants);
+            recoverInactivePlayers(awayTeam, awayMatchParticipants);
+            maybeInjurePlayer(homeLineup, homeTeam, endMinute, 0.06, 1, 2);
+            maybeInjurePlayer(awayLineup, awayTeam, endMinute, 0.06, 1, 2);
+        }
     }
 
     private double calcAvg(List<Player> lineup) {
@@ -98,7 +124,9 @@ public class BasketballMatch extends AbstractMatch {
 
     @Override
     public void applyTacticChange(Team team, Tactic newTactic) {
-        team.setTactic(newTactic);
+        if (team != null && newTactic != null) {
+            team.setTactic(newTactic);
+        }
     }
 
     @Override
@@ -107,9 +135,98 @@ public class BasketballMatch extends AbstractMatch {
             return;
         }
 
-        List<Player> lineup = team.equals(homeTeam) ? homeLineup : awayLineup;
-        if (lineup != null && lineup.remove(playerOut)) {
-            lineup.add(playerIn);
+        if (!team.equals(homeTeam) && !team.equals(awayTeam)) {
+            return;
         }
+
+        List<Player> roster = team.getPlayers();
+        if (!roster.contains(playerOut) || !roster.contains(playerIn)) {
+            return;
+        }
+
+        List<Player> lineup = team.equals(homeTeam) ? homeLineup : awayLineup;
+        if (lineup != null && lineup.remove(playerOut) && !lineup.contains(playerIn)) {
+            lineup.add(playerIn);
+            registerParticipation(team, playerOut);
+            registerParticipation(team, playerIn);
+        }
+    }
+
+    private void recoverInactivePlayers(Team team, Set<Player> participants) {
+        Set<Player> playedPlayers = participants != null ? participants : Set.of();
+        for (Player player : team.getPlayers()) {
+            if (player != null && !playedPlayers.contains(player)) {
+                player.recoverOneGame();
+            }
+        }
+    }
+
+    private void beginPeriodTracking() {
+        homePeriodParticipants = new LinkedHashSet<>();
+        awayPeriodParticipants = new LinkedHashSet<>();
+        registerLineupParticipation(homeTeam, homeLineup);
+        registerLineupParticipation(awayTeam, awayLineup);
+    }
+
+    private void registerLineupParticipation(Team team, List<Player> lineup) {
+        if (lineup == null) {
+            return;
+        }
+
+        for (Player player : lineup) {
+            registerParticipation(team, player);
+        }
+    }
+
+    private void registerParticipation(Team team, Player player) {
+        if (team == null || player == null) {
+            return;
+        }
+
+        if (team.equals(homeTeam)) {
+            if (homeMatchParticipants == null) {
+                homeMatchParticipants = new LinkedHashSet<>();
+            }
+            if (homePeriodParticipants == null) {
+                homePeriodParticipants = new LinkedHashSet<>();
+            }
+            homeMatchParticipants.add(player);
+            homePeriodParticipants.add(player);
+        } else if (team.equals(awayTeam)) {
+            if (awayMatchParticipants == null) {
+                awayMatchParticipants = new LinkedHashSet<>();
+            }
+            if (awayPeriodParticipants == null) {
+                awayPeriodParticipants = new LinkedHashSet<>();
+            }
+            awayMatchParticipants.add(player);
+            awayPeriodParticipants.add(player);
+        }
+    }
+
+    private void maybeInjurePlayer(List<Player> lineup,
+                                   Team team,
+                                   int minute,
+                                   double chance,
+                                   int minGames,
+                                   int maxGames) {
+        if (lineup == null || lineup.isEmpty() || random.nextDouble() >= chance) {
+            return;
+        }
+
+        Player victim = pickRandom(lineup);
+        if (!(victim instanceof AbstractPlayer abstractPlayer)) {
+            return;
+        }
+
+        int games = minGames + random.nextInt(Math.max(1, maxGames - minGames + 1));
+        abstractPlayer.injure(games);
+        notifyObservers(new MatchEvent(
+                MatchEvent.EventType.INJURY,
+                minute,
+                victim.getName(),
+                team.getName(),
+                victim.getName() + " will miss " + games + " game(s)"
+        ));
     }
 }

@@ -30,12 +30,16 @@ public abstract class AbstractMatch implements Match {
             simulatePeriod(i);
         }
         completed = true;
-        notifyObservers(MatchEvent.matchEnd(getPeriodCount() * 45));
+        notifyObservers(MatchEvent.matchEnd(getPeriodCount() * getPeriodLength()));
     }
 
     protected abstract void simulatePeriod(int periodNumber);
 
     protected abstract int getPeriodCount();
+
+    protected int getPeriodLength() {
+        return 45;
+    }
 
     protected void notifyObservers(MatchEvent event) {
         events.add(event);
@@ -46,6 +50,13 @@ public abstract class AbstractMatch implements Match {
 
     public void addObserver(MatchObserver observer) {
         observers.add(observer);
+    }
+
+    public void restoreState(int homeScore, int awayScore, boolean completed) {
+        this.homeScore = homeScore;
+        this.awayScore = awayScore;
+        this.completed = completed;
+        this.events = new ArrayList<>();
     }
 
     public List<MatchEvent> getEvents() {

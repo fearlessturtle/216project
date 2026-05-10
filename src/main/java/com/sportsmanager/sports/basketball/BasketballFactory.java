@@ -1,8 +1,8 @@
 package com.sportsmanager.sports.basketball;
 
-import com.sportsmanager.core.AbstractLeague;
 import com.sportsmanager.core.Coach;
 import com.sportsmanager.core.Match;
+import com.sportsmanager.core.League;
 import com.sportsmanager.core.Player;
 import com.sportsmanager.core.Sport;
 import com.sportsmanager.core.SportFactory;
@@ -46,11 +46,17 @@ public class BasketballFactory implements SportFactory {
 
     @Override
     public Tactic createTactic(String name) {
-        return new BasketballTactic(
-                name != null ? name : "Unknown",
-                1.0,
-                1.0
-        );
+        String tacticName = name != null ? name : "Motion Offense";
+        if ("Zone Defense".equalsIgnoreCase(tacticName)) {
+            return BasketballTactic.zoneDefense();
+        }
+        if ("Pick and Roll".equalsIgnoreCase(tacticName)) {
+            return BasketballTactic.pickAndRoll();
+        }
+        if ("Full Court Press".equalsIgnoreCase(tacticName)) {
+            return BasketballTactic.fullCourtPress();
+        }
+        return BasketballTactic.motionOffense();
     }
 
     @Override
@@ -64,7 +70,7 @@ public class BasketballFactory implements SportFactory {
     }
 
     @Override
-    public AbstractLeague createLeague() {
+    public League createLeague() {
         return new BasketballLeague();
     }
 

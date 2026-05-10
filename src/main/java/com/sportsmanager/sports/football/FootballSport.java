@@ -1,22 +1,38 @@
 package com.sportsmanager.sports.football;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import com.sportsmanager.core.*;
+import com.sportsmanager.core.League;
+import com.sportsmanager.core.Match;
+import com.sportsmanager.core.ProceduralNameSource;
+import com.sportsmanager.core.Sport;
+import com.sportsmanager.core.SportFactory;
+import com.sportsmanager.core.Team;
+import com.sportsmanager.core.TeamStanding;
 
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.lang.reflect.Type;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
 
 public class FootballSport implements Sport {
 
-    private SportFactory factory;
-    private AbstractLeague league; // Using AbstractLeague to access addTeam(), setCurrentWeek()
+    private static final List<String> DEFAULT_TEAM_NAMES = List.of(
+            "Lions", "Tigers", "Eagles", "Bears", "Wolves",
+            "Sharks", "Panthers", "Hawks", "Falcons", "Ravens",
+            "Bulls", "Rhinos", "Stallions", "Cobras", "Vipers",
+            "Jaguars", "Pythons", "Dragons", "Griffins", "Knights",
+            "Titans", "Rangers", "Warriors", "Royals"
+    );
+
+    private static final String[] SPECIALITIES = {"Attack", "Defense", "Fitness"};
+
+    private final SportFactory factory;
+    private League league;
 
     public FootballSport() {
         this.factory = new FootballFactory();
-        this.league = (AbstractLeague) factory.createLeague();
+        this.league = factory.createLeague();
     }
 
     @Override
@@ -26,53 +42,73 @@ public class FootballSport implements Sport {
 
     @Override
     public void generateLeague() {
-        List<String> names = loadNames();
-        Collections.shuffle(names);
+        league = factory.createLeague();
 
-        // Creates 20 randomly named teams
+        List<String> teamNames = ProceduralNameSource.loadTeamNames("football", DEFAULT_TEAM_NAMES);
+        Collections.shuffle(teamNames);
+        ProceduralNameSource.NameBank nameBank = ProceduralNameSource.loadNameBank();
+        Random random = new Random();
+
         for (int i = 0; i < 20; i++) {
-            String teamName = (i < names.size()) ? names.get(i) : "Team " + (i + 1);
+            String teamName = i < teamNames.size() ? teamNames.get(i) : "Team " + (i + 1);
             Team team = factory.createTeam(teamName);
+
+            Map<String, Integer> positionCounts = new LinkedHashMap<>();
+            positionCounts.put("GK", 2);
+            positionCounts.put("DF", 4);
+            positionCounts.put("MF", 4);
+            positionCounts.put("FW", 2);
+
+            for (Map.Entry<String, Integer> entry : positionCounts.entrySet()) {
+                String position = entry.getKey();
+                int count = entry.getValue();
+                for (int j = 0; j < count; j++) {
+                    ProceduralNameSource.PersonName person = ProceduralNameSource.randomPerson(nameBank, random);
+                    team.addPlayer(new FootballPlayer(
+                            person.fullName,
+                            18 + random.nextInt(15),
+                            position,
+                            person.gender,
+                            50 + random.nextInt(51),
+                            50 + random.nextInt(51),
+                            50 + random.nextInt(51),
+                            50 + random.nextInt(51),
+                            50 + random.nextInt(51),
+                            50 + random.nextInt(51)
+                    ));
+                }
+            }
+
+            ProceduralNameSource.PersonName coachName = ProceduralNameSource.randomPerson(nameBank, random);
+            String speciality = SPECIALITIES[random.nextInt(SPECIALITIES.length)];
+            team.addCoach(new FootballCoach(
+                    coachName.fullName,
+                    35 + random.nextInt(15),
+                    speciality,
+                    5 + random.nextInt(16)
+            ));
+
+            team.setTactic(factory.createTactic("4-4-2"));
             league.addTeam(team);
         }
 
-        // Generate the 38-week round robin fixture schedule
         league.generateFixture();
-    }
-
-    private List<String> loadNames() {
-        try {
-            InputStream is = getClass().getClassLoader().getResourceAsStream("names.json");
-            if (is != null) {
-                Gson gson = new Gson();
-                Type listType = new TypeToken<List<String>>() {}.getType();
-                List<String> names = gson.fromJson(new InputStreamReader(is), listType);
-                if (names != null && names.size() >= 20) {
-                    return names;
-                }
-            }
-        } catch (Exception e) {
-            // Ignore exception and use fallback names below
-        }
-
-        // Fallback names ensuring we always have at least 20 unique teams
-        return new ArrayList<>(Arrays.asList(
-                "Lions", "Tigers", "Eagles", "Bears", "Wolves", "Sharks", "Panthers", "Hawks", "Falcons", "Ravens",
-                "Bulls", "Rhinos", "Stallions", "Cobras", "Vipers", "Jaguars", "Pythons", "Dragons", "Griffins", "Knights"
-        ));
     }
 
     @Override
     public void simulateWeek() {
-        if (isSeasonOver()) return;
+        if (isSeasonOver()) {
+            return;
+        }
 
-        // Simulate all matches for the current round/week (up to 10 matches for 20 teams)
         int simulated = 0;
         for (Match match : league.getNextMatches()) {
             if (!match.isCompleted()) {
                 playMatch(match);
                 simulated++;
-                if (simulated == 10) break; // 10 matches = 1 full week
+                if (simulated == 10) {
+                    break;
+                }
             }
         }
         league.setCurrentWeek(league.getCurrentWeek() + 1);
@@ -80,7 +116,6 @@ public class FootballSport implements Sport {
 
     @Override
     public void playMatch(Match match) {
-        // ALWAYS go through FootballMatch as requested
         match.play();
         league.updateStandings(match);
     }
@@ -101,13 +136,18 @@ public class FootballSport implements Sport {
     }
 
     @Override
+    public League getLeague() {
+        return league;
+    }
+
+    @Override
     public boolean isSeasonOver() {
         return league.isSeasonOver();
     }
 
     @Override
     public int getPeriodCount() {
-        return 2; // Football always has 2 halves
+        return 2;
     }
 
     @Override

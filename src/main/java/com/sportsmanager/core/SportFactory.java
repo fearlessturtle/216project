@@ -16,6 +16,6 @@ public interface SportFactory {
 
     Coach createCoach(String name);
 
-    AbstractLeague createLeague();
+    League createLeague();
     List<String> getSupportedSports();
 }

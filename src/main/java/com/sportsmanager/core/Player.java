@@ -14,6 +14,8 @@ public interface Player {
 
     int getInjuryGamesLeft();
 
+    int getStamina();
+
     int getOverallRating();
 
     void train(Coach coach);

@@ -21,6 +21,14 @@ class FootballFactoryTest {
     }
 
     @Test
+    void testBalancedFormationIsNeutral() {
+        FootballTactic tactic = (FootballTactic) new FootballFactory().createTactic("4-4-2");
+
+        assertEquals(0.0, tactic.getOffensiveBonus(), 0.0001);
+        assertEquals(0.0, tactic.getDefensiveBonus(), 0.0001);
+    }
+
+    @Test
     void testFactoryMatchCreation() {
         SportFactory factory = new FootballFactory();
         var match = factory.createMatch(factory.createTeam("Home"), factory.createTeam("Away"));
@@ -28,5 +36,12 @@ class FootballFactoryTest {
         assertNotNull(match);
         assertEquals("Home", match.getHomeTeam().getName());
         assertEquals("Away", match.getAwayTeam().getName());
+    }
+
+    @Test
+    void testFactorySupportsFiveFourOne() {
+        FootballTactic tactic = (FootballTactic) new FootballFactory().createTactic("5-4-1");
+
+        assertEquals("5-4-1", tactic.getTacticName());
     }
 }
