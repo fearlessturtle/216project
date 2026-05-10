@@ -1,7 +1,7 @@
 package com.sportsmanager.ui;
 
 import com.sportsmanager.core.*;
-import com.sportsmanager.core.SaveGameManager;
+
 import javafx.fxml.FXMLLoader;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -9,8 +9,10 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 
+import java.io.File;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -379,21 +381,33 @@ public class LeagueViewController implements Initializable {
         }
     }
 
-    @FXML
-    private void handleSaveGame() {
-        if (sport == null) {
-            setStatus("No game to save.");
+   @FXML
+private void handleSaveGame() {
+    System.out.println("DEBUG: handleSaveGame called");
+    if (sport == null) {
+        setStatus("No game to save.");
+        return;
+    }
+
+    try {
+        DirectoryChooser chooser = new DirectoryChooser();
+       chooser.setTitle("Choose Where to Save");
+File docs = new File(System.getProperty("user.home") + "/Documents");
+if (docs.exists()) {
+    chooser.setInitialDirectory(docs);
+}
+File selectedDir = chooser.showDialog(saveButton.getScene().getWindow());
+        if (selectedDir == null) {
             return;
         }
 
-        try {
-            SaveGameManager manager = new SaveGameManager();
-            manager.saveGame(sport, sport.getSportName(), managedTeam != null ? managedTeam.getName() : null);
-            setStatus("Game saved.");
-        } catch (Exception e) {
-            setStatus("Save failed.");
-        }
+        SaveGameManager manager = new SaveGameManager();
+        manager.saveGame(sport, sport.getSportName(), managedTeam != null ? managedTeam.getName() : null, selectedDir.getAbsolutePath());
+        setStatus("Game saved to: " + selectedDir.getAbsolutePath());
+    } catch (Exception e) {
+        setStatus("Save failed: " + e.getMessage());
     }
+}
 
     @FXML
     private void handleBackToMenu() {

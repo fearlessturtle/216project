@@ -36,19 +36,24 @@ public class SaveGameManager {
         saveGame(sport, sportName, null);
     }
 
-    public void saveGame(Sport sport, String sportName, String managedTeamName) throws IOException {
-        if (sport == null) {
-            throw new IllegalArgumentException("sport cannot be null");
-        }
+  public void saveGame(Sport sport, String sportName, String managedTeamName) throws IOException {
+    saveGame(sport, sportName, managedTeamName, null);
+}
 
-        String timestamp = String.valueOf(System.currentTimeMillis());
-        Path saveDir = Paths.get(SAVE_DIR, sportName + "_" + timestamp);
-        Files.createDirectories(saveDir);
-
-        saveMeta(saveDir, sportName, managedTeamName);
-        saveTeams(saveDir, sport);
-        saveLeague(saveDir, sport);
+public void saveGame(Sport sport, String sportName, String managedTeamName, String customSaveDir) throws IOException {
+    if (sport == null) {
+        throw new IllegalArgumentException("sport cannot be null");
     }
+
+    String baseDir = (customSaveDir != null && !customSaveDir.isBlank()) ? customSaveDir : SAVE_DIR;
+    String timestamp = String.valueOf(System.currentTimeMillis());
+    Path saveDir = Paths.get(baseDir, sportName + "_" + timestamp);
+    Files.createDirectories(saveDir);
+
+    saveMeta(saveDir, sportName, managedTeamName);
+    saveTeams(saveDir, sport);
+    saveLeague(saveDir, sport);
+}
 
     public String readSportType(String savePath) throws IOException {
         return loadMetaObject(Paths.get(savePath)).get("sportType").getAsString();
